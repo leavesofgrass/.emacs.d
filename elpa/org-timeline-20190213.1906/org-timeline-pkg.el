@@ -1,0 +1,2 @@
+;;; Generated package description from /home/jon/.emacs.d/elpa/org-timeline-20190213.1906/org-timeline.el  -*- no-byte-compile: t -*-
+(define-package "org-timeline" "20190213.1906" "Add graphical view of agenda to agenda buffer." '((dash "2.13.0") (emacs "24.3")) :stars '(#("55" 0 2 (font-lock-face paradox-star-face))) :commit "aed995c1db6c8bfd9db0a75a978f5e261aab38e5" :keywords '("calendar") :authors '(("Matúš Goljer" . "matus.goljer@gmail.com")) :maintainer '("Matúš Goljer" . "matus.goljer@gmail.com") :url "https://github.com/Fuco1/org-timeline/")

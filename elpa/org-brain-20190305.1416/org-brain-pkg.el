@@ -1,0 +1,2 @@
+;;; Generated package description from /home/jon/.emacs.d/elpa/org-brain-20190305.1416/org-brain.el  -*- no-byte-compile: t -*-
+(define-package "org-brain" "20190305.1416" "Org-mode concept mapping" '((emacs "25") (org "9")) :stars '(#("881" 0 3 (font-lock-face paradox-star-face))) :commit "62cf65d3586cfeecb6339adcacc0515a36bbcc63" :keywords '("outlines" "hypermedia") :authors '(("Erik Sjöstrand" . "sjostrand.erik@gmail.com")) :maintainer '("Erik Sjöstrand" . "sjostrand.erik@gmail.com") :url "http://github.com/Kungsgeten/org-brain")

@@ -1,0 +1,2 @@
+;;; Generated package description from /home/jon/.emacs.d/elpa/kv-20140108.1534/kv.el  -*- no-byte-compile: t -*-
+(define-package "kv" "20140108.1534" "key/value data structure functions" 'nil :stars '(#("34" 0 2 (font-lock-face paradox-star-face))) :commit "721148475bce38a70e0b678ba8aa923652e8900e" :keywords '("lisp") :authors '(("Nic Ferrier" . "nferrier@ferrier.me.uk")) :maintainer '("Nic Ferrier" . "nferrier@ferrier.me.uk"))

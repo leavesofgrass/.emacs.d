@@ -1,0 +1,2 @@
+;;; Generated package description from /home/jon/.emacs.d/elpa/helm-emms-20190422.1522/helm-emms.el  -*- no-byte-compile: t -*-
+(define-package "helm-emms" "20190422.1522" "Emms for Helm." '((helm "1.5") (emms "0.0") (cl-lib "0.5") (emacs "24.1")) :stars '(#("13" 0 2 (font-lock-face paradox-star-face))) :commit "89ec04e6548f16c5848cc49ad506e0561cea87ab" :url "https://github.com/emacs-helm/helm-emms")
