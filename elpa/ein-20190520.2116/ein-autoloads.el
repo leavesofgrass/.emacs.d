@@ -410,7 +410,7 @@ Reload current Notebook list.
 \(fn URL-OR-PORT KERNELSPEC &optional CALLBACK NO-POP RETRY)" t nil)
 
 (autoload 'ein:notebooklist-new-notebook-with-name "ein-notebooklist" "\
-Open new notebook and rename the notebook.
+Upon notebook-open, rename the notebook, then funcall CALLBACK.
 
 \(fn URL-OR-PORT KERNELSPEC NAME &optional CALLBACK NO-POP)" t nil)
 
@@ -671,26 +671,7 @@ Show full traceback in traceback viewer." t nil)
 ;;;### (autoloads nil "ob-ein" "ob-ein.el" (0 0 0 0))
 ;;; Generated autoloads from ob-ein.el
 
-(autoload 'org-babel-execute:ein "ob-ein" "\
-This function is called by `org-babel-execute-src-block'.
-
-\(fn BODY PARAMS)" nil nil)
-
-(autoload 'org-babel-execute:ein-hy "ob-ein" "\
-
-
-\(fn BODY PARAMS)" nil nil)
-
-(autoload 'org-babel-edit-prep:ein "ob-ein" "\
-C-c ' enters the lightly tested connect-to-notebook mode.
-
-\(fn BABEL-INFO)" nil nil)
-
-(with-eval-after-load "python" (setq python-indent-guess-indent-offset-verbose nil))
-
-(add-hook 'org-mode-hook (lambda nil (add-to-list 'org-src-lang-modes '("ein" . python)) (add-to-list 'org-src-lang-modes '("ein-hy" . hy))))
-
-(if (fboundp 'register-definition-prefixes) (register-definition-prefixes "ob-ein" '("*ob-ein-sentinel*" "ein:org-register-lang-mode" "ob-ein-" "org-babel-default-header-args:ein")))
+(if (fboundp 'register-definition-prefixes) (register-definition-prefixes "ob-ein" '("*ob-ein-sentinel*" "ob-ein-")))
 
 ;;;***
 
