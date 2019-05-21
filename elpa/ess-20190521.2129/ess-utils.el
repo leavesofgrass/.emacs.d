@@ -118,20 +118,9 @@ Optionally ignore strings that match exceptions."
 (defun ess-save-and-set-local-variables ()
   "If buffer was modified, save file and set Local Variables if defined.
 Return t if buffer was modified, nil otherwise."
-  (interactive)
-  (let ((ess-temp-point (point))
-        (ess-temp-return-value (buffer-modified-p)))
-    ;; if buffer has changed, save buffer now (before potential revert)
-    (if ess-temp-return-value (save-buffer))
-    ;; If Local Variables are defined, update them now
-    ;; since they may have changed since the last revert
-    ;;  (save-excursion
-    (beginning-of-line -1)
-    (save-match-data
-      (if (search-forward "End:" nil t) (revert-buffer t t)))
-    ;; save-excursion doesn't save point in the presence of a revert
-    ;; so you need to do it yourself
-    (goto-char ess-temp-point)
+  (let ((ess-temp-return-value (buffer-modified-p)))
+    (save-buffer)
+    (hack-local-variables)
     ess-temp-return-value))
 
 (defun ess-get-file-or-buffer (file-or-buffer)
@@ -158,14 +147,18 @@ This function will work even if LIST is unsorted.  See also `delete-dups'."
 
 (define-obsolete-function-alias 'ess-uniq-list 'delete-dups "ESS 19.04")
 
-(defun ess-flatten-list (&rest list)
-  "Take the arguments and flatten them into one long LIST.
+(defalias 'ess-flatten-list
+  ;; `flatten-tree' is a function in Emacs 27
+  (if (fboundp 'flatten-tree)
+      'flatten-tree
+    (lambda (list)
+      "Take the arguments and flatten them into one long LIST.
 Drops 'nil' entries."
-  ;; Taken from lpr.el
-  ;; `lpr-flatten-list' is defined here (copied from "message.el" and
-  ;; enhanced to handle dotted pairs as well) until we can get some
-  ;; sensible autoloads, or `flatten-list' gets put somewhere decent.
-  (ess-flatten-list-1 list))
+      ;; Taken from lpr.el
+      ;; `lpr-flatten-list' is defined here (copied from "message.el" and
+      ;; enhanced to handle dotted pairs as well) until we can get some
+      ;; sensible autoloads, or `flatten-list' gets put somewhere decent.
+      (ess-flatten-list-1 list))))
 
 (defun ess-flatten-list-1 (list)
   (cond

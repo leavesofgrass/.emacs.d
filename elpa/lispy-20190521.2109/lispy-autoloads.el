@@ -41,6 +41,13 @@
 
 ;;;***
 
+;;;### (autoloads nil "le-racket" "le-racket.el" (0 0 0 0))
+;;; Generated autoloads from le-racket.el
+
+(if (fboundp 'register-definition-prefixes) (register-definition-prefixes "le-racket" '("lispy-")))
+
+;;;***
+
 ;;;### (autoloads nil "le-scheme" "le-scheme.el" (0 0 0 0))
 ;;; Generated autoloads from le-scheme.el
 

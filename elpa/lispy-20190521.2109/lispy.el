@@ -2018,6 +2018,7 @@ When the region is active, toggle a ~ at the start of the region."
 (declare-function cider-repl-return "ext:cider-repl")
 (declare-function slime-repl-return "ext:slime-repl")
 (declare-function sly-mrepl-return "ext:sly-mrepl")
+(declare-function racket-repl-submit "ext:racket-repl")
 (defun lispy-newline-and-indent-plain ()
   "When in minibuffer, exit it.  Otherwise forward to `newline-and-indent'."
   (interactive)
@@ -2037,6 +2038,8 @@ When the region is active, toggle a ~ at the start of the region."
       (inferior-emacs-lisp-mode
        (setq this-command 'ielm-return)
        (ielm-return))
+      (racket-repl-mode
+       (racket-repl-submit))
       (t
        (if (and (not (lispy--in-string-or-comment-p))
                 (if (memq major-mode lispy-clojure-modes)
@@ -4160,6 +4163,7 @@ Sexp is obtained by exiting list ARG times."
   '((clojure-mode lispy-goto-symbol-clojure le-clojure)
     (clojurescript-mode lispy-goto-symbol-clojurescript le-clojure)
     (scheme-mode lispy-goto-symbol-scheme le-scheme)
+    (racket-mode lispy-goto-symbol-racket le-racket)
     (lisp-mode lispy-goto-symbol-lisp le-lisp)
     (python-mode lispy-goto-symbol-python le-python))
   "An alist of `major-mode' to function for jumping to symbol.
@@ -4235,7 +4239,8 @@ SYMBOL is a string."
 (defvar lispy-eval-alist
   '((python-mode lispy-eval-python le-python)
     (julia-mode lispy-eval-julia le-julia)
-    (clojure-mode lispy-eval-clojure le-clojure)))
+    (clojure-mode lispy-eval-clojure le-clojure)
+    (racket-mode lispy-eval-racket le-racket)))
 
 (defvar lispy-eval-error nil
   "The eval function may set this when there's an error.")
@@ -4413,6 +4418,12 @@ If STR is too large, pop it to a buffer instead."
         (message str)
       (error (message (replace-regexp-in-string "%" "%%" str))))))
 
+(defun lispy--eval-dwim ()
+  (let ((eval-str (if (eq major-mode 'python-mode)
+                      (lispy-eval-python-str)
+                    (lispy--string-dwim))))
+    (lispy--eval eval-str)))
+
 (defun lispy-eval-and-insert ()
   "Eval last sexp and insert the result."
   (interactive)
@@ -4422,9 +4433,12 @@ If STR is too large, pop it to a buffer instead."
                 (when (= (point) (region-beginning))
                   (exchange-point-and-mark)))
                ((lispy-right-p))
+               ((eq major-mode 'python-mode))
                (t
                 (lispy-forward 1)))
-         (let ((str (lispy--eval (lispy--string-dwim))))
+         (let ((str (lispy--eval-dwim)))
+           (when (eq major-mode 'python-mode)
+             (end-of-line))
            (newline-and-indent)
            (insert str)
            (when (and (lispy-right-p) (lispy--major-mode-lisp-p))
@@ -4437,11 +4451,8 @@ If STR is too large, pop it to a buffer instead."
 (defun lispy-eval-and-comment ()
   "Eval last sexp and insert the result as a comment."
   (interactive)
-  (let* ((eval-str (if (eq major-mode 'python-mode)
-                       (lispy-eval-python-str)
-                     (lispy--string-dwim)))
-         (str (lispy--eval eval-str))
-         re-bnd)
+  (let ((str (lispy--eval-dwim))
+        re-bnd)
     (save-excursion
       (cond ((region-active-p)
              (setq re-bnd (cons (region-beginning)

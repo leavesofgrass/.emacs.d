@@ -1,4 +1,4 @@
-(define-package "ess" "20190520.2246" "Emacs Speaks Statistics"
+(define-package "ess" "20190521.2129" "Emacs Speaks Statistics"
   '((emacs "25.1")
     (julia-mode "0.3"))
   :authors
