@@ -264,6 +264,9 @@ Note: Duplicate elements of `kill-ring' are always deleted.
 
 \(fn &optional ARG)" t nil)
 
+(autoload 'counsel-register "counsel" "\
+Interactively choose a register." t nil)
+
 (autoload 'counsel-imenu "counsel" "\
 Jump to a buffer position indexed by imenu." t nil)
 
