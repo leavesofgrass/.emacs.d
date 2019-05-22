@@ -1,0 +1,2 @@
+;;; Generated package description from /home/jon/.emacs.d/elpa/pdfgrep-20181007.1728/pdfgrep.el  -*- no-byte-compile: t -*-
+(define-package "pdfgrep" "20181007.1728" "run `pdfgrep' and display the results." '((emacs "24.4")) :stars '(#("12" 0 2 (font-lock-face paradox-star-face))) :commit "e251cd5c88a4ba5cb69008ba412d329f4d59e1d2" :keywords '("extensions" "mail" "pdf" "grep") :authors '(("Jérémy Compostella" . "jeremy.compostella@gmail.com")) :maintainer '("Jérémy Compostella" . "jeremy.compostella@gmail.com") :url "https://github.com/jeremy-compostella/pdfgrep")

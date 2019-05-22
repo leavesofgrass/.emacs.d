@@ -1,0 +1,2 @@
+;;; Generated package description from /home/jon/.emacs.d/elpa/dired-hacks-utils-20190522.950/dired-hacks-utils.el  -*- no-byte-compile: t -*-
+(define-package "dired-hacks-utils" "20190522.950" "Utilities and helpers for dired-hacks collection" '((dash "2.5.0")) :stars '(#("415" 0 3 (font-lock-face paradox-star-face))) :commit "9523083f57c8278e3f52ca63b965249123139cd1" :keywords '("files") :authors '(("Matúš Goljer" . "matus.goljer@gmail.com")) :maintainer '("Matúš Goljer" . "matus.goljer@gmail.com"))
