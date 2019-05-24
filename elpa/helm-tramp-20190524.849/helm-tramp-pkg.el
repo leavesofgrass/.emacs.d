@@ -1,0 +1,2 @@
+;;; Generated package description from /home/jon/.emacs.d/elpa/helm-tramp-20190524.849/helm-tramp.el  -*- no-byte-compile: t -*-
+(define-package "helm-tramp" "20190524.849" "Tramp helm interface for ssh, docker, vagrant" '((emacs "24.3") (helm "2.0")) :stars '(#("43" 0 2 (font-lock-face paradox-star-face))) :commit "af5bd50b955e385bc447080e720ffc85ed0b286b" :authors '(("Masashı Mıyaura")) :maintainer '("Masashı Mıyaura") :url "https://github.com/masasam/emacs-helm-tramp")
