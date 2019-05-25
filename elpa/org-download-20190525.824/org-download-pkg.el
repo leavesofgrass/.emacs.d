@@ -1,0 +1,2 @@
+;;; Generated package description from /home/jon/.emacs.d/elpa/org-download-20190525.824/org-download.el  -*- no-byte-compile: t -*-
+(define-package "org-download" "20190525.824" "Image drag-and-drop for Emacs org-mode" '((async "1.2")) :stars '(#("323" 0 3 (font-lock-face paradox-star-face))) :commit "d04adffe21f2c54a55c875d34afbddc568e35f28" :keywords '("images" "screenshots" "download") :authors '(("Oleh Krehel")) :maintainer '("Oleh Krehel") :url "https://github.com/abo-abo/org-download")
