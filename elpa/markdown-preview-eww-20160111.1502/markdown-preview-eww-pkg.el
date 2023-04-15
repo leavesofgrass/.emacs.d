@@ -1,2 +1,0 @@
-;;; Generated package description from /home/jon/.emacs.d/elpa/markdown-preview-eww-20160111.1502/markdown-preview-eww.el  -*- no-byte-compile: t -*-
-(define-package "markdown-preview-eww" "20160111.1502" "Realtime preview by eww" '((emacs "24.4")) :stars '(#("104" 0 3 (font-lock-face paradox-star-face))) :commit "5853f836425c877c8a956501f0adda137ef1d3b7" :authors '(("niku" . "niku@niku.name")) :maintainer '("niku" . "niku@niku.name") :url "https://github.com/niku/markdown-preview-eww")

@@ -1,2 +1,2 @@
-;;; -*- no-byte-compile: t -*-
-(define-package "helm-mt" "20160918.452" "helm multi-term management" '((emacs "24") (helm "0.0") (multi-term "0.0") (cl-lib "0.5")) :stars '(#("20" 0 2 (font-lock-face paradox-star-face))) :commit "d2bff4100118483bc398c56d0ff095294209265b" :keywords '("helm" "multi-term") :authors '(("Didier Deshommes" . "dfdeshom@gmail.com")) :maintainer '("Didier Deshommes" . "dfdeshom@gmail.com") :url "https://github.com/dfdeshom/helm-mt")
+;;; Generated package description from helm-mt.el  -*- no-byte-compile: t -*-
+(define-package "helm-mt" "20160918.452" "helm multi-term management" '((emacs "24") (helm "0.0") (multi-term "0.0") (cl-lib "0.5")) :commit "d2bff4100118483bc398c56d0ff095294209265b" :authors '(("Didier Deshommes" . "dfdeshom@gmail.com")) :maintainer '("Didier Deshommes" . "dfdeshom@gmail.com") :keywords '("helm" "multi-term") :url "https://github.com/dfdeshom/helm-mt")

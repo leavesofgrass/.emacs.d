@@ -1,2 +1,0 @@
-;;; Generated package description from /home/jon/.emacs.d/elpa/ob-uart-20170521.858/ob-uart.el  -*- no-byte-compile: t -*-
-(define-package "ob-uart" "20170521.858" "org-babel support for UART communication" 'nil :stars '(#("2" 0 1 (font-lock-face paradox-star-face))) :commit "90daeac90a9e75c20cdcf71234c67b812110c50e" :keywords '("tools" "comm" "org-mode" "uart" "literate programming" "reproducible development") :authors '(("Andreas Müller")) :maintainer '("Andreas Müller") :url "https://www.0x7.ch")

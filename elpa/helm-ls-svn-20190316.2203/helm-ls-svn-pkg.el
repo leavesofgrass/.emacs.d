@@ -1,0 +1,2 @@
+;;; Generated package description from helm-ls-svn.el  -*- no-byte-compile: t -*-
+(define-package "helm-ls-svn" "20190316.2203" "helm extension to list svn files" '((emacs "24.1") (helm "1.7.0") (cl-lib "0.5")) :commit "a6043e1187282f649e2cb9f0e722a42daf41294b" :authors '(("Chunyang Xu" . "chunyang@macports.org")) :maintainer '("Chunyang Xu" . "chunyang@macports.org") :keywords '("helm" "svn") :url "https://svn.macports.org/repository/macports/users/chunyang/helm-ls-svn.el/helm-ls-svn.el")

@@ -1,0 +1,2 @@
+;;; Generated package description from helm-helm-commands.el  -*- no-byte-compile: t -*-
+(define-package "helm-helm-commands" "20130902.1748" "List all helm commands with helm" '((helm "1.5.4")) :commit "1c37bb0d4cda6877162603cd1ddc9f596a7a5cb9" :authors '(("Joe Bloggs" . "vapniks@yahoo.com")) :maintainer '("Joe Bloggs" . "vapniks@yahoo.com") :keywords '("convenience") :url "https://github.com/vapniks/helm-helm-commands")

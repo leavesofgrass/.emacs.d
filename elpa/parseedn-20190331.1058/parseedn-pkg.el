@@ -1,2 +1,0 @@
-;;; Generated package description from /home/jon/.emacs.d/elpa/parseedn-20190331.1058/parseedn.el  -*- no-byte-compile: t -*-
-(define-package "parseedn" "20190331.1058" "Clojure/EDN parser" '((emacs "25") (a "0.1.0alpha4") (parseclj "0.1.0")) :stars '(#("10" 0 2 (font-lock-face paradox-star-face))) :commit "ddf824bc1df1585867cb7f27f2dd8ca8df760569" :keywords '("lisp" "clojure" "edn" "parser") :authors '(("Arne Brasseur" . "arne@arnebrasseur.net")) :maintainer '("Arne Brasseur" . "arne@arnebrasseur.net"))

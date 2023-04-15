@@ -1,0 +1,2 @@
+;;; Generated package description from say-what-im-doing.el  -*- no-byte-compile: t -*-
+(define-package "say-what-im-doing" "20160706.1931" "dictate what you're doing with text to speech" 'nil :commit "5b2ce6783b02805bcac1107a149bfba3852cd9d5" :authors '(("Benaiah Mischenko")) :maintainer '("Benaiah Mischenko") :keywords '("text to speech" "dumb" "funny") :url "http://github.com/benaiah/say-what-im-doing")

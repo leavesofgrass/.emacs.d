@@ -1,0 +1,2 @@
+;;; Generated package description from tfsmacs.el  -*- no-byte-compile: t -*-
+(define-package "tfsmacs" "20180911.2114" "MS TFS source control interaction." '((emacs "25") (tablist "0.70")) :commit "13ee3f528ff616880611f563a68d921250692ef8" :authors '(("Dino Chiesa <dpchiesa@outlook.com>, Sebastian Monia" . "smonia@outlook.com")) :maintainer '("Dino Chiesa <dpchiesa@outlook.com>, Sebastian Monia" . "smonia@outlook.com") :keywords '("tfs" "vc") :url "http://github.com/sebasmonia/tfsmacs/")

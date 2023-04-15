@@ -1,2 +1,2 @@
-;;; -*- no-byte-compile: t -*-
-(define-package "company-inf-ruby" "20140805.2054" "company-mode completion back-end for inf-ruby" '((company "0.6.10") (inf-ruby "2.2.7") (emacs "24.1")) :stars '(#("11" 0 2 (font-lock-face paradox-star-face))) :commit "fe3e4863bc971fbb81edad447efad5795ead1b17" :authors '(("Dmitry Gutov" . "dgutov@yandex.ru")) :maintainer '("Dmitry Gutov" . "dgutov@yandex.ru") :url "https://github.com/company-mode/company-inf-ruby")
+;;; Generated package description from company-inf-ruby.el  -*- no-byte-compile: t -*-
+(define-package "company-inf-ruby" "20140805.2054" "company-mode completion back-end for inf-ruby" '((company "0.6.10") (inf-ruby "2.2.7") (emacs "24.1")) :commit "9c2eab3bb82e8838c54013026e6ffb51cccbd37e" :authors '(("Dmitry Gutov" . "dgutov@yandex.ru")) :maintainer '("Dmitry Gutov" . "dgutov@yandex.ru") :url "https://github.com/company-mode/company-inf-ruby")

@@ -1,2 +1,0 @@
-;;; -*- no-byte-compile: t -*-
-(define-package "counsel" "20190604.1057" "Various completion functions using Ivy" '((emacs "24.3") (swiper "0.11.0")) :stars '(#("1168" 0 4 (font-lock-face paradox-star-face))) :commit "b528f0f3aaa86a40fdec06bdb06c603ce1418bcb" :keywords '("convenience" "matching" "tools") :authors '(("Oleh Krehel" . "ohwoeowho@gmail.com")) :maintainer '("Oleh Krehel" . "ohwoeowho@gmail.com") :url "https://github.com/abo-abo/swiper")

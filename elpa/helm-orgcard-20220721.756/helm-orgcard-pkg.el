@@ -1,0 +1,2 @@
+;;; Generated package description from helm-orgcard.el  -*- no-byte-compile: t -*-
+(define-package "helm-orgcard" "20220721.756" "browse the orgcard by helm" '((helm-core "3.6.0")) :commit "d58d35627bb1714bb2cb095f696706b6881233ed" :authors '(("Yuhei Maeda <yuhei.maeda_at_gmail.com>")) :maintainer '("Yuhei Maeda") :keywords '("convenience" "helm" "org") :url "https://github.com/emacs-jp/helm-orgcard")

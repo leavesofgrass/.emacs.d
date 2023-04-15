@@ -1,2 +1,0 @@
-;;; Generated package description from /home/jon/.emacs.d/elpa/github-explorer-20190421.510/github-explorer.el  -*- no-byte-compile: t -*-
-(define-package "github-explorer" "20190421.510" "Explore a GitHub repository on the fly" '((emacs "24.4") (request "0.1.0")) :stars '("") :commit "27be3f515d9b163477bbd2dc0253e5eeb9c8bfd4" :keywords '("comm") :authors '(("Giap Tran" . "txgvnn@gmail.com")) :maintainer '("Giap Tran" . "txgvnn@gmail.com") :url "https://github.com/TxGVNN/github-explorer")

@@ -1,2 +1,0 @@
-;;; Generated package description from /home/jon/.emacs.d/elpa/pylint-20170402.1255/pylint.el  -*- no-byte-compile: t -*-
-(define-package "pylint" "20170402.1255" "minor mode for running `pylint'" 'nil :stars '(#("2012" 0 4 (font-lock-face paradox-star-face))) :commit "f029be7302a3e882e75255b2d9226361bbe53c94" :keywords '("languages" "python") :authors '(("Ian Eure" . "ian.eure@gmail.com")) :maintainer '("Jonathan Kotta" . "jpkotta@gmail.com"))

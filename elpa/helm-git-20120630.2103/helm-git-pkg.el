@@ -1,2 +1,2 @@
-;;; Generated package description from /home/jon/.emacs.d/elpa/helm-git-20120630.2103/helm-git.el  -*- no-byte-compile: t -*-
-(define-package "helm-git" "20120630.2103" "Helm extension for Git." 'nil :commit "cb96a52b5aecadd3c27aba7749d14e43ab128d55" :keywords '("helm" "git") :authors '(("Marian Schubert" . "marian.schubert@gmail.com")) :maintainer '("Marian Schubert" . "marian.schubert@gmail.com") :url "https://github.com/maio/helm-git")
+;;; Generated package description from helm-git.el  -*- no-byte-compile: t -*-
+(define-package "helm-git" "20120630.2103" "Helm extension for Git." 'nil :commit "5b4a6eb7a97b2583236a1f919b75249957918e29" :authors '(("Marian Schubert" . "marian.schubert@gmail.com")) :maintainer '("Marian Schubert" . "marian.schubert@gmail.com") :keywords '("helm" "git") :url "https://github.com/maio/helm-git")

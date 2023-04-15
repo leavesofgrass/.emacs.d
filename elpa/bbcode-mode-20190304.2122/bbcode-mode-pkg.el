@@ -1,0 +1,2 @@
+;;; Generated package description from bbcode-mode.el  -*- no-byte-compile: t -*-
+(define-package "bbcode-mode" "20190304.2122" "Major mode for phpBB posts (BBCode markup)" '((emacs "24") (cl-lib "0.5")) :commit "e16619c80ea21154b4a4ccc2e13d0077e97c9caf" :authors '(("Eric James Michael Ritz" . "lobbyjones@gmail.com")) :maintainer '("Lassi Kortela" . "lassi@lassi.io") :keywords '("bbcode" "languages") :url "https://github.com/lassik/emacs-bbcode-mode")

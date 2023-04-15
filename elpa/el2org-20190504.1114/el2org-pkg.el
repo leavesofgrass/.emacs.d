@@ -1,2 +1,0 @@
-;;; Generated package description from /home/jon/.emacs.d/elpa/el2org-20190504.1114/el2org.el  -*- no-byte-compile: t -*-
-(define-package "el2org" "20190504.1114" "Convert elisp file to org file" '((emacs "25.1")) :stars '(#("27" 0 2 (font-lock-face paradox-star-face))) :commit "fbb2c5bff78564111ff1826976101555314bfc53" :keywords '("convenience") :authors '(("Feng Shu " . "tumashu@163.com")) :maintainer '("Feng Shu " . "tumashu@163.com") :url "https://github.com/tumashu/el2org")

@@ -1,0 +1,2 @@
+;;; Generated package description from github-pullrequest.el  -*- no-byte-compile: t -*-
+(define-package "github-pullrequest" "20170116.616" "Create and fetch Github Pull requests with ease" '((emacs "24.4") (request "0.2.0") (dash "2.11.0") (magit "2.10.0")) :commit "471816e09d1e140a0975911fe020c6c659f71209" :authors '(("Jakob Lind" . "karl.jakob.lind@gmail.com")) :maintainer '("Jakob Lind" . "karl.jakob.lind@gmail.com") :keywords '("tools") :url "https://github.com/jakoblind/github-pullrequest")

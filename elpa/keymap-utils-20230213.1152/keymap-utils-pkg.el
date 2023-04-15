@@ -1,0 +1,2 @@
+;;; Generated package description from keymap-utils.el  -*- no-byte-compile: t -*-
+(define-package "keymap-utils" "20230213.1152" "Keymap utilities" '((emacs "25.1") (compat "29.1.3.4")) :commit "1806ff73b0a68e84234d65c7d08a18cf3f0d29e5" :authors '(("Jonas Bernoulli" . "jonas@bernoul.li")) :maintainer '("Jonas Bernoulli" . "jonas@bernoul.li") :keywords '("convenience" "extensions") :url "https://github.com/tarsius/keymap-utils")

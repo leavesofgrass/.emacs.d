@@ -1,0 +1,3325 @@
+This is speechd-el.info, produced by makeinfo version 6.7 from
+speechd-el.texi.
+
+This manual is for speechd-el, 2.11.
+
+   Copyright (C) 2012-2021 Milan Zamazal Copyright (C) 2003-2010
+Brailcom, o.p.s.
+
+     Permission is granted to copy, distribute and/or modify this
+     document under the terms of the GNU Free Documentation License,
+     Version 1.2 or any later version published by the Free Software
+     Foundation; with no Invariant Sections, with no Front-Cover Texts
+     and no Back-Cover Texts.  A copy of the license is included in the
+     section entitled "GNU Free Documentation License."
+
+   You can also (at your option) distribute this manual under the GNU
+General Public License:
+
+     Permission is granted to copy, distribute and/or modify this
+     document under the terms of the GNU General Public License as
+     published by the Free Software Foundation; either version 3 of the
+     License, or (at your option) any later version.
+
+     A copy of the license is included in the section entitled "GNU
+     General Public License".
+
+INFO-DIR-SECTION Emacs
+START-INFO-DIR-ENTRY
+* speechd-el: (speechd-el).	Emacs interface to Speech Dispatcher and BRLTTY.
+END-INFO-DIR-ENTRY
+
+
+File: speechd-el.info,  Node: Top,  Next: Introduction,  Prev: (dir),  Up: (dir)
+
+speechd-el
+**********
+
+This manual is for speechd-el, 2.11.
+
+   Copyright (C) 2012-2021 Milan Zamazal Copyright (C) 2003-2010
+Brailcom, o.p.s.
+
+     Permission is granted to copy, distribute and/or modify this
+     document under the terms of the GNU Free Documentation License,
+     Version 1.2 or any later version published by the Free Software
+     Foundation; with no Invariant Sections, with no Front-Cover Texts
+     and no Back-Cover Texts.  A copy of the license is included in the
+     section entitled "GNU Free Documentation License."
+
+   You can also (at your option) distribute this manual under the GNU
+General Public License:
+
+     Permission is granted to copy, distribute and/or modify this
+     document under the terms of the GNU General Public License as
+     published by the Free Software Foundation; either version 3 of the
+     License, or (at your option) any later version.
+
+     A copy of the license is included in the section entitled "GNU
+     General Public License".
+
+* Menu:
+
+* Introduction::                What is speechd-el and this manual about?
+* speechd-el User Manual::      Using Emacs speech output.
+* speechd-el Elisp Library::    Using speechd-el in Elisp programs.
+* Contact Information::         Bug reporting etc.
+
+* Copying This Manual::         GNU Free Documentation License.
+* Index::                       Concept, function, variable and key index.
+
+
+File: speechd-el.info,  Node: Introduction,  Next: speechd-el User Manual,  Prev: Top,  Up: Top
+
+1 Introduction
+**************
+
+speechd-el is an Emacs client to speech synthesizers, Braille displays
+and other alternative output interfaces.  It provides full speech and
+Braille output environment for Emacs.
+
+   It is aimed primarily at visually impaired users who need non-visual
+communication with Emacs, but it can be used by anybody who needs
+sophisticated speech or other kind of alternative output from Emacs.
+speechd-el can make Emacs a completely speech and BRLTTY enabled
+application suitable for visually impaired users or, depending on its
+configuration, it can only speak in certain situations or when asked, to
+serve needs of any Emacs user.
+
+   Programming interfaces are available both to the user interface and
+for communication with the output devices.
+
+   This manual describes the speech/Braille output user interface, how
+to customize and extend the interface, and the Emacs Lisp libraries.
+Some degree of familiarity with Speech Dispatcher or BRLTTY on the user
+level is recommended, although not absolutely necessary.
+
+* Menu:
+
+* Design Goals::
+* Feature List::
+* Components::
+
+
+File: speechd-el.info,  Node: Design Goals,  Next: Feature List,  Prev: Introduction,  Up: Introduction
+
+1.1 Design Goals
+================
+
+speechd-el was designed considering our experience with other free
+accessibility technologies.  We sometimes meet problems such as lack of
+maintenance power, duplicated efforts, making technology specific
+solutions instead of generally useful tools, important bugs.  As other
+Free(b)soft projects (http://www.freebsoft.org/projects) speechd-el
+attempts to fill in an empty space in the accessibility area, in a way
+oriented towards future.  speechd-el tries to offer technology that is
+useful, simple, supporting general accessibility architecture models and
+that effectively utilizes the limited accessibility development
+resources.
+
+   The particular speechd-el design goals are:
+
+   * Providing advanced accessible user environment that works out of
+     the box and utilizes standard Emacs features wherever possible.
+     Emacs accessibility should work as much as possible on the general
+     level without necessity to implement direct support for particular
+     Emacs packages.  speechd-el should also preferably use standard
+     Emacs features if possible instead of implementing its own
+     solutions.
+
+   * Implementing just the necessary functionality, without duplicating
+     features presented in other components such as Speech Dispatcher,
+     speech synthesizers or Braille APIs.  Emacs accessibility solutions
+     should share features, configuration, code, etc.  with other
+     applications to the highest possible extent in order to make life
+     of both users and developers easier.
+
+   * Simple and clean source code that requires only minimum maintenance
+     and allows future extensions.
+
+   * As little modifications to standard Emacs environment as possible,
+     with the possibility to make additional customizations if needed,
+     either shared or private.  Emacs should work the same way whether
+     it speaks or not.  Of course optional customizations can be made
+     and the generally useful ones should be included as optional parts
+     of the distribution.
+
+   * Ability to work well in a multilingual environment.
+
+   * Completely Free Software architecture, without requiring any
+     proprietary component.
+
+
+File: speechd-el.info,  Node: Feature List,  Next: Components,  Prev: Design Goals,  Up: Introduction
+
+1.2 Feature List
+================
+
+Major speechd-el features are:
+
+   * Speech output.
+
+   * Braille display output and input, mostly identical to the speech
+     output.
+
+   * Both automated and explicit reading.  You can let Emacs read
+     everything and/or you can ask it to read some parts of the text
+     (such as current line, current buffer, last message, etc.).
+
+   * Message priorities ensuring you don't miss important messages while
+     you needn't listen to or view unimportant messages.
+
+   * "Intelligent" and customizable selection of text to be read based
+     on lines, text properties, buffer contents changes and other
+     criteria.
+
+   * Support for changing speech parameters (such as language, voice,
+     rate, pitch, volume, speech synthesizer).  Different speech
+     parameters can be used in different buffers, major modes, faces,
+     etc.
+
+   * Support for events (such as sound icons).
+
+   * Emacs status changes reporting (such as mode, keyboard, process
+     changes, etc.).
+
+   * Multilingual environment support.  speechd-el works well with
+     languages other than English and offers support for current
+     language selection based on the kind of texts, selected keyboard,
+     etc.
+
+   * Reasonable immediate speech and Braille output in most Emacs
+     packages.
+
+   * No significant changes of the standard Emacs behavior.
+
+   * Speech and Braille output can be enabled/disabled independently to
+     each other and they can be enabled/disabled for the whole Emacs
+     session or just for particular buffers.
+
+   * Speech synthesizer independence, you can use all speech
+     synthesizers supported by Speech Dispatcher (such as Festival,
+     Flite, eSpeak, Epos, Dectalk, IBM TTS, Cicero, etc.)  and you can
+     use multiple speech synthesizers inside a single Emacs session.
+
+   * Braille displays are handled through BRLTTY drivers and APIs.
+
+   * Programming libraries for those who want to extend speechd-el
+     facilities or who just want to talk to speech synthesizers, Braille
+     display or other output/input devices.
+
+   * Special features for speechd-el developers such as silence in
+     debugger, debugging variables, possibility to disable speechd-el
+     hooks, etc.
+
+   * Small code size.
+
+   See speechd-el web page (http://www.freebsoft.org/speechd-el) if you
+are interested in comparison with Emacspeak.
+
+
+File: speechd-el.info,  Node: Components,  Prev: Feature List,  Up: Introduction
+
+1.3 Components
+==============
+
+speechd-el design is strictly modular.  It contains several components
+layered each on top of other.  Lower layer functions can be used
+independently of higher level features.
+
+   The lowest level components are access libraries to output devices,
+especially to SSIP (the Speech Dispatcher TCP communication protocol for
+speech output) and BrlAPI (interface to BRLTTY drivers for communication
+with Braille displays).  They can be used to talk to the output devices
+directly from Elisp programs.
+
+   The next level implements common access to all the devices.  Instead
+of talking to each device independently one can use this layer to output
+device independent messages that are processed and sent to the output
+devices as defined in the user configuration.  This is the preferred way
+of communication with the output devices.
+
+   On the highest level there is the user interface frontend that makes
+Emacs read texts and events automatically, defines the corresponding
+minor modes, key bindings and most of the interactive commands.
+
+   There are some other auxiliary components, look into speechd-el
+source code if interested.
+
+
+File: speechd-el.info,  Node: speechd-el User Manual,  Next: speechd-el Elisp Library,  Prev: Introduction,  Up: Top
+
+2 speechd-el User Manual
+************************
+
+speechd-el allows you to use Emacs without looking at screen, with
+speech or Braille output only.  The main usage area is by blind and
+visually impaired people, but generally you can use at least the speech
+output for many purposes, according to your wishes and needs.
+
+   You can download the latest released version of speechd-el from
+<http://www.freebsoft.org/pub/projects/speechd-el/>.
+
+   speechd-el uses Speech Dispatcher for the speech output, so working
+Speech Dispatcher installation is necessary to produce any speech
+output.  Please look at <http://www.freebsoft.org/speechd> for more
+information about Speech Dispatcher.
+
+   For the Braille output BRLTTY is used through its BrlAPI interface.
+To make the Braille output work, BRLTTY must be running and properly
+configured.  Please look at <http://www.mielke.cc/brltty/> for more
+information about BRLTTY.
+
+* Menu:
+
+* Installation::                Installing speechd-el.
+* Starting Alternative Output:: Making it speak etc.
+* Commands::                    Usage.
+* Customization::               Basic customization.
+* Advanced Customization::      Writing your own command feedbacks.
+* Problems::                    Strange behavior.
+* Tips::                        Useful Emacs tips.
+* Bug Reporting::               speechd-el and Speech Dispatcher bugs.
+
+
+File: speechd-el.info,  Node: Installation,  Next: Starting Alternative Output,  Prev: speechd-el User Manual,  Up: speechd-el User Manual
+
+2.1 Installation
+================
+
+speechd-el installation consists of the following steps:
+
+  1. If you use Emacs older than 23.2 then install the 'eieio' Elisp
+     library, available from <http://cedet.sourceforge.net/eieio.shtml>
+     or perhaps your favorite operating system distribution.
+
+  2. Copy the speechd-el '*.el' files contained in the distribution
+     package somewhere to your Emacs load path.
+
+  3. If you like, byte compile the '*.el' files.  Byte compilation is
+     recommended, because it speeds up speechd-el significantly.  You
+     can byte compile the '*.el' files using the command
+
+          make compile
+
+     Then install the compiled files to an Emacs load path location as
+     well.
+
+  4. Install the 'speechd-log-extractor' somewhere to your shell PATH,
+     e.g.  '/usr/local/bin/'.  Installing this script is optional, it is
+     used only for bug reporting.
+
+  5. Add the following line to your '~/.emacs':
+
+          (autoload 'speechd-speak "speechd-speak" nil t)
+
+   To receive speech output, Speech Dispatcher must be installed and
+running.  Speech Dispatcher version 0.5 or higher is recommended.
+
+   To receive Braille output, BRLTTY must be installed and running.
+BRLTTY version 3.7 or higher is required.
+
+
+File: speechd-el.info,  Node: Starting Alternative Output,  Next: Commands,  Prev: Installation,  Up: speechd-el User Manual
+
+2.2 Starting Speech and Braille Output
+======================================
+
+After installation of the '*.el' files and restarting Emacs, you can set
+up speechd-speak using the 'M-x speechd-speak' command.  If you want to
+happen it automatically each time Emacs is started, put the following
+line to your '~/.emacs' after the autoload line:
+
+     (speechd-speak)
+
+'M-x speechd-speak'
+     Set up Emacs for alternative output and start speaking or
+     communicating with the Braille display.
+
+     Please don't forget Speech Dispatcher must be running in order to
+     get any speech output and BRLTTY must be running in order to get
+     Braille output!
+
+     After the initial setup, the command can be used again to restart
+     the speech or Braille output when needed.  Especially, you must run
+     it again if Speech Dispatcher or BRLTTY gets restarted.
+
+     After the first invocation, the command is available under the 'C-e
+     C-s' key.
+
+   Once the setup is done, enabling and disabling the alternative output
+is controlled by the speechd-speak and global-speechd-speak minor modes.
+Usually the mode commands are not used directly, you use the
+'speechd-speak-toggle-speaking' command (*note Control Commands::), but
+if you need them, they are available.
+
+'M-x speechd-speak-mode'
+     Enable or disable speaking and Braille output in the current
+     buffer.  With no argument, this command toggles the mode.  Non-null
+     prefix argument turns on the mode.  Null prefix argument turns off
+     the mode.
+
+'M-x global-speechd-speak-mode'
+     Enable or disable alternative output globally.  With no argument,
+     this command toggles the mode.  With prefix argument, turn
+     alternative output on if and only if the argument is positive.
+
+
+File: speechd-el.info,  Node: Commands,  Next: Customization,  Prev: Starting Alternative Output,  Up: speechd-el User Manual
+
+2.3 Commands
+============
+
+The basic speechd-el commands are all accessible through a common
+special prefix key, which is 'C-e' by default (you can change it, *note
+Customization::).  If this prefix conflicts with a global Emacs command,
+the original command is available by double pressing the prefix key.
+For instance, with the default prefix, the 'end-of-line' command,
+normally available under the 'C-e' key, can be invoked as 'C-e C-e'.
+
+   In the following subsections we use the term _reading_ to indicate
+any kind of output enabled in speechd-el (such as speaking or Braille
+output).
+
+* Menu:
+
+* Reading Commands::            Reading pieces of text.
+* Informatory Commands::        Information about buffer, modes, etc.
+* Control Commands::            Stopping, setting speech rate, etc.
+* Parameter Setting Commands::  Modifying speech output.
+* Spelling::                    How to spell a piece of text.
+* Other Commands::              Auxiliary commands.
+
+
+File: speechd-el.info,  Node: Reading Commands,  Next: Informatory Commands,  Prev: Commands,  Up: Commands
+
+2.3.1 Reading Commands
+----------------------
+
+'C-e l'
+     Read current line ('speechd-speak-read-line').  With the prefix
+     argument, read the line only from the current cursor position to
+     the end of line.  If 'truncate-lines' is 'nil', read the line only
+     to its visual end.
+
+'C-e b'
+     Read current buffer ('speechd-speak-read-buffer').
+
+'C-e >'
+     Read current buffer from the cursor to the buffer end
+     ('speechd-speak-read-rest-of-buffer').
+
+'C-e o'
+     Read buffer of the other window, if any is present
+     ('speechd-speak-read-other-window').
+
+'C-e r'
+     Read current region ('speechd-speak-read-region').
+
+'C-e C-r'
+     Read text in the rectangle-region ('speechd-speak-read-rectangle').
+
+'C-e w'
+     Read the next word after cursor ('speechd-speak-read-word').
+
+'C-e .'
+     Read current sentence ('speechd-speak-read-sentence').
+
+'C-e {'
+     Read the next paragraph after cursor
+     ('speechd-speak-read-paragraph').
+
+'C-e ['
+     Read the next page after cursor ('speechd-speak-read-page').
+
+'C-e ''
+     Read the next symbolic expression after cursor
+     ('speechd-speak-read-sexp').
+
+'C-e c'
+     Read the character at the cursor position
+     ('speechd-speak-read-char').
+
+'C-e C-n'
+     Read the next line ('speechd-speak-read-next-line').
+
+'C-e C-p'
+     Read the previous line ('speechd-speak-read-previous-line').
+
+'C-e m'
+     Read last seen Emacs message ('speechd-speak-last-message').
+
+'C-e RET'
+     Read the mode line ('speechd-speak-read-mode-line').  Note: This
+     command works only in Emacs 22 or higher.
+
+'C-e i'
+     Read last output buffer insertions
+     ('speechd-speak-last-insertions').  That is the text read in
+     auto-reading buffers, see *Note Auto-Reading Buffers::.
+
+   A few Emacs commands get you stuck in a character reading prompt, a
+typical example is 'ispell-word'.  If you miss what was read before you
+are prompted for action, you can use the following keystrokes at the
+prompt to repeat the output texts:
+
+'C-e'
+     The same as the 'C-e m' command above
+     ('speechd-speak-last-message').
+
+'C-a'
+     The same as the 'C-e i' command above
+     ('speechd-speak-last-insertions').
+
+   If you don't like such character reading prompt behavior, you can
+disable it using the following variable:
+
+'speechd-speak-allow-prompt-commands'
+     If non-'nil', allow the speechd-speak commands mentioned above in
+     read-char prompts.
+
+
+File: speechd-el.info,  Node: Informatory Commands,  Next: Control Commands,  Prev: Reading Commands,  Up: Commands
+
+2.3.2 Informatory Commands
+--------------------------
+
+'C-e C-i b'
+     Read information about current buffer
+     ('speechd-speak-buffer-info').
+
+'C-e C-i f'
+     Read information about current frame ('speechd-speak-frame-info').
+
+'C-e C-i h'
+     Read contents of the header line
+     ('speechd-speak-header-line-info').  Note: This command works only
+     in Emacs 22 or higher.
+
+'C-e C-i m'
+     Read information about current major and minor modes
+     ('speechd-speak-mode-info').
+
+'C-e C-i c'
+     Read information about current coding systems
+     ('speechd-speak-coding-info').
+
+'C-e C-i i'
+     Read information about current input method
+     ('speechd-speak-input-method-info').
+
+'C-e C-i p'
+     Read status of the process associated with the current buffer
+     ('speechd-speak-process-info').
+
+
+File: speechd-el.info,  Node: Control Commands,  Next: Parameter Setting Commands,  Prev: Informatory Commands,  Up: Commands
+
+2.3.3 Control Commands
+----------------------
+
+'C-e q'
+     Toggle reading globally ('speechd-speak-toggle-speaking').  With a
+     prefix argument, toggle it in the current buffer only.
+
+'C-e s'
+     Stop reading current message ('speechd-stop').  Other queued
+     messages will still be read.  If the prefix argument is given, stop
+     reading the current message of any client, not just of the current
+     connection.
+
+'C-e x'
+     Stop reading all the queued messages of the current connection and
+     of the connections listed in SPEECHD-CANCELABLE-CONNECTIONS.  If
+     the universal prefix argument is given, stop reading all the
+     messages of all connections.  If a numeric prefix argument is
+     given, stop all the messages of the current Emacs session.
+
+'C-e p'
+     Pause reading -- just be quiet for now and postpone current reading
+     until the resume command is invoked ('speechd-pause').  If the
+     prefix argument is given, pause reading of all clients.
+
+'C-e SPC'
+     Resume paused reading ('speechd-resume').  If the prefix argument
+     is given, resume reading of all clients.
+
+'C-e 1'
+'C-e 2'
+'C-e 3'
+'C-e 4'
+'C-e 5'
+'C-e 6'
+'C-e 7'
+'C-e 8'
+'C-e 9'
+     Set one of the predefined speech rates
+     ('speechd-speak-key-set-predefined-rate').  'C-e 1' sets the
+     slowest rate, 'C-e 5' sets the medium rate, and 'C-e 9' sets the
+     fastest rate.
+
+
+File: speechd-el.info,  Node: Parameter Setting Commands,  Next: Spelling,  Prev: Control Commands,  Up: Commands
+
+2.3.4 Parameter Setting Commands
+--------------------------------
+
+These commands set various properties of the speech output.  They all
+apply on the current Speech Dispatcher connection (for more information
+about Speech Dispatcher connections, *note Connection Voices::), unless
+there are invoked with a prefix argument.  With a numeric prefix
+argument they apply on all speechd-el connections, with a universal
+prefix argument they apply on all Speech Dispatcher connections.
+
+   Commands affecting basic parameters of the text-to-speech process:
+
+'C-e d l'
+     Set default language of the connection.  Specify it as an RFC 1766
+     language code (e.g.  'en', 'cs', etc.).
+
+'C-e d .'
+     Specify how to handle punctuation, whether to read it or ignore it.
+     'all' mode reads all punctuation characters, 'none' mode skips them
+     all quietly, and 'some' mode reads a selected subset of punctuation
+     characters specified in the Speech Dispatcher configuration.
+
+'C-e d c'
+     Set capital letter indication mode.  'icon' means signal them with
+     a sound icon, 'spell' means spell them using a special spelling
+     table, and 'none' means no indication.
+
+   Commands affecting speech output properties:
+
+'C-e d v'
+     Set default voice to be used by the synthesizer
+     ('speechd-set-voice').  You may select one from the voice set
+     offered by your Speech Dispatcher installation.
+
+'C-e d C-v'
+     Set default voice to be used by the synthesizer directly by its
+     synthesizer dependent name ('speechd-set-synthesizer-voice').  You
+     may select one from the voice set offered by the currently selected
+     Speech Dispatcher output module.  This works only with Speech
+     Dispatcher 0.6.3 or higher and not all Speech Dispatcher output
+     modules support this function.
+
+'C-e d r'
+     Set exact speech rate, ranging from -100 (slowest) to 100 (fastest)
+     ('speechd-set-rate').  Most often you will probably want to use the
+     'speechd-speak-key-set-predefined-rate' command bound to 'C-e
+     NUMBER' instead, see *note Control Commands::.
+
+'C-e d p'
+     Set voice pitch, ranging from -100 (lowest) to 100 (highest)
+     ('speechd-set-pitch').
+
+'C-e d V'
+     Set voice volume, ranging from -100 (lowest) to 100 (highest)
+     ('speechd-set-volume').
+
+   Commands affecting the speech synthesizer:
+
+'C-e d o'
+     Switch Speech Dispatcher to the given output module
+     ('speechd-set-output-module').  Give the module name when you are
+     prompted for the argument.
+
+
+File: speechd-el.info,  Node: Spelling,  Next: Other Commands,  Prev: Parameter Setting Commands,  Up: Commands
+
+2.3.5 Spelling
+--------------
+
+There are two ways to use spelling in speechd-el.  The first one is the
+'speechd-speak-spell-mode', which is a minor mode that you can enable
+for a buffer.  The mode is useful if you want to spell more of the
+buffer contents.
+
+   The second spelling method is using the following command:
+
+'C-e C-l'
+     Cause the following command to spell the text it reads
+     ('speechd-speak-spell').  For instance, if you want to spell the
+     word after the cursor, you can type 'C-e C-l C-e w'.
+
+
+File: speechd-el.info,  Node: Other Commands,  Prev: Spelling,  Up: Commands
+
+2.3.6 Other Commands
+--------------------
+
+In case Emacs gets completely crazy and refuses to run commands
+including 'C-x C-c' because of a bug in speechd-el or in an alternative
+output related custom definition, you can try to invoke the following
+command as the last resort:
+
+'C-e C-x'
+     Try to disable all modes, hooks and wrappers installed by
+     'speechd-speak' ('speechd-unspeak').
+
+   The following commands are rarely used, mostly for diagnosing
+purposes:
+
+'C-e z'
+     Repeat the last output text ('speechd-repeat').
+
+'M-x speechd-say-text'
+     Prompt for a text and read it.
+
+
+File: speechd-el.info,  Node: Customization,  Next: Advanced Customization,  Prev: Commands,  Up: speechd-el User Manual
+
+2.4 Customization
+=================
+
+All the customization options described below are accessible in the
+customization group 'speechd-el' and its subgroups.
+
+* Menu:
+
+* Driver Selection::            Choosing output devices.
+* Connection Setup::            Where to connect to.
+* Default Priorities::          Priorities of various kinds of messages.
+* Basic Speaking::              Simple options.
+* Auto-Reading Buffers::        Making certain buffers speak automatically.
+* Reading State::               Speaking Emacs state changes.
+* Signalling::                  Signalling empty lines, etc.
+* Text Properties::             Handling faces and special pieces of text.
+* Index marking::               Moving cursor when speaking.
+* Languages::                   Using multiple languages.
+* Voices::                      Defining different voices.
+* Connection Voices::           Setting connection parameters.
+* Multiple Connections::        Different parameters for some modes & buffers.
+* Keys::                        Customizing command keys.
+* Braille Display Keys::        Binding actions to Braille display keys.
+* Modes::                       Minor mode hooks.
+* Debugging::                   Make debugger quiet.
+
+
+File: speechd-el.info,  Node: Driver Selection,  Next: Connection Setup,  Prev: Customization,  Up: Customization
+
+2.4.1 Selecting Drivers
+-----------------------
+
+By default speechd-el speaks to 'ssip' and 'brltty' drivers.  You can
+change the set of active drivers by customizing the following variable:
+
+'speechd-out-active-drivers'
+     List of names of active output drivers.
+
+   If a driver that does not work is present in the variable (e.g.  the
+list contains the 'brltty' symbol while BRLTTY is not actually running),
+you receive an error message.  To prevent the error message, remove the
+driver from this variable.
+
+   When you want to enable or disable some driver temporarily, you can
+use the following commands:
+
+'M-x speechd-out-enable-driver'
+     Enable the given output driver.
+
+'M-x speechd-out-disable-driver'
+     Disable the given output driver.
+
+
+File: speechd-el.info,  Node: Connection Setup,  Next: Default Priorities,  Prev: Driver Selection,  Up: Customization
+
+2.4.2 Speech Dispatcher Connection Configuration
+------------------------------------------------
+
+Connection configuration variables allow you connect to Speech
+Dispatcher or BRLTTY running on a remote host or a non-default port and
+to specify other TCP connection parameters.
+
+   Speech Dispatcher connection options:
+
+'speechd-connection-method'
+     Connection method to Speech Dispatcher.  Possible values are
+     symbols 'unix-socket' for Unix domain sockets and 'inet-socket' for
+     Internet sockets on a given host and port.
+
+'speechd-host'
+     Name of the host running Speech Dispatcher to connect to, given as
+     a string.  Default is either the contents of the shell variable
+     'SPEECHD_HOST' variable if set, or '"localhost"'.  Value of this
+     variable matters only when Internet sockets are used for
+     communication with Speech Dispatcher.
+
+'speechd-port'
+     Port number to connect to.  Default is either the contents of the
+     shell variable 'SPEECHD_PORT' if set, or the default Speech
+     Dispatcher port.  Value of this variable matters only when Internet
+     sockets are used for communication with Speech Dispatcher.
+
+'speechd-autospawn'
+     If non-'nil', Emacs will attempt to automatically start Speech
+     Dispatcher.  This means that if speechd-el gets a speech request
+     and the Speech Dispatcher server is not running already, speechd-el
+     will launch it.
+
+'speechd-timeout'
+     Maximum number of seconds to wait for a Speech Dispatcher answer.
+     If it is exceeded, speechd-el closes the connection.  Normally,
+     Speech Dispatcher should answer protocol commands immediately, but
+     if you talk to a Speech Dispatcher in a strange way through a
+     lagging network, you may want to increase the limit.
+
+   BRLTTY connection options:
+
+'brltty-default-host'
+     Name of the host running BRLTTY to connect to, given as a string.
+     Default is '"localhost"'.
+
+'brltty-default-port'
+     Port number to connect to.  It can be either a single number or a
+     list of numbers; in the latter case the given port numbers are
+     attempted in the order they are given until Emacs connects to
+     something.  Default is the list of the standard BrlAPI ports.
+
+'brltty-authentication-file'
+     File containing the BrlAPI authentication key.  It is important to
+     set the variable properly, otherwise the connection to BRLTTY gets
+     rejected.  Default is '"/etc/brlapi.key"'.
+
+'brltty-coding'
+     Coding in which texts should be sent to BRLTTY. Default is
+     'iso-8859-1'; if you use non-Western language, you may need to
+     change it to display its characters correctly on the Braille
+     display.
+
+'brltty-tty'
+     Number of the Linux console on which speechd-el runs.  If this
+     value is not set correctly, speechd-el may not interact well with
+     other applications communicating with BRLTTY. speechd-el tries to
+     find the correct value itself, if this doesn't work, set this
+     variable properly or set the 'CONTROLVT' environment variable.
+
+'brltty-timeout'
+     Maximum number of seconds to wait for a BRLTTY answer.  If it is
+     exceeded, speechd-el closes the connection.  Normally, BRLTTY
+     should answer protocol commands immediately, but if you talk to
+     BrlAPI in a strange way through a lagging network, you may want to
+     increase the limit.
+
+
+File: speechd-el.info,  Node: Default Priorities,  Next: Basic Speaking,  Prev: Connection Setup,  Up: Customization
+
+2.4.3 Default Priorities
+------------------------
+
+If a speechd-el function sends a message to the output device without an
+explicitly specified priority, the priorities defined by the following
+variables are used.  By changing the values, you can achieve interesting
+effects.  For instance, changing the value of
+'speechd-default-key-priority' from 'notification' to 'message' makes
+all typed characters to be echoed and makes them to interrupt common
+text reading.
+
+   The valid values of all the variables here are: 'important',
+'message', 'text', 'notification', 'progress'.  They correspond to
+Speech Dispatcher priorities, see the Speech Dispatcher manual for more
+details.
+
+'speechd-default-text-priority'
+     Default priority of most text messages.
+
+'speechd-default-sound-priority'
+     Default priority of sound icons.
+
+'speechd-default-char-priority'
+     Default priority of spelled characters.
+
+'speechd-default-key-priority'
+     Default priority of typed keys.
+
+
+File: speechd-el.info,  Node: Basic Speaking,  Next: Auto-Reading Buffers,  Prev: Default Priorities,  Up: Customization
+
+2.4.4 Basic Customization of Speaking
+-------------------------------------
+
+'speechd-speak-echo'
+     Symbol determining how to read typed characters.  It can have one
+     of the following values:
+
+     'character'
+          Read characters when they are typed.
+     'word'
+          Read only whole words once they are written.
+     'nil'
+          Don't echo anything on typing.
+
+'speechd-speak-deleted-char'
+     Defines which character to speak when deleting a character.  If
+     non-'nil', speak the deleted character, otherwise speak the
+     adjacent character.
+
+'speechd-speak-buffer-name'
+     When you switch to another buffer and this variable is non-'nil',
+     read the new buffer name.  If the variable value is the symbol
+     'text', read the text from the cursor position to the end of line
+     in the new buffer as well.  If the variable is 'nil', read the text
+     without speaking the buffer name.
+
+'speechd-speak-whole-line'
+     If non-'nil', read whole line on movement by default.  Otherwise
+     read from the point to the end of line on movement by default.
+
+'speechd-speak-on-minibuffer-exit'
+     When this variable is non-'nil', speechd-el reads the text around
+     cursor after exiting from minibuffer or its recursive level if
+     there is nothing else to read.
+
+'speechd-speak-read-command-keys'
+     This variable defines in which situations command keys should be
+     read when their command is performed.  If 't', the command keys are
+     always read.  If 'nil', they are never read.  If list, it may
+     contain one or more of the following symbols describing the
+     situations in which the keys should be read:
+
+     'movement'
+          Read the command keys if the cursor has moved, no buffer
+          modification happened.
+
+     'modification'
+          Buffer was modified, the cursor hasn't moved.
+
+     'movement-modification'
+          Buffer was modified and the cursor was moved.
+
+     If the variable value is 't', the command keys are read before the
+     command is performed.  Otherwise, their reading is delayed after
+     the command is executed, since the buffer changes and cursor
+     movement must be detected first.
+
+'speechd-speak-ignore-command-keys'
+     List of commands that should never echo their command keys.
+
+'speechd-speak-read-command-name'
+     If non-'nil', read the command name instead of the command keys in
+     the situations defined by the variable
+     'speechd-speak-read-command-keys'.
+
+'speechd-speak-message-time-interval'
+     Minimum time in seconds, after which the same message may be
+     repeated.  If the message is the same as the last one, it is not
+     spoken unless the number of seconds defined here has passed from
+     the last spoken message.
+
+
+File: speechd-el.info,  Node: Auto-Reading Buffers,  Next: Reading State,  Prev: Basic Speaking,  Up: Customization
+
+2.4.5 Auto-Reading Buffers
+--------------------------
+
+It sometimes useful to start reading some buffers without user's
+explicit request.  For instance, if a help command is invoked, the user
+usually wants to read the help text immediately.  The following
+variables contain lists of names of the buffers that may be read
+automatically if they get changed by the last command and are visible in
+some window of the current frame.
+
+'speechd-speak-auto-speak-buffers'
+     Content of these buffers is read after the command on the above
+     conditions if nothing else (e.g.  text around a new cursor
+     position) is to be read.
+
+'speechd-speak-force-auto-speak-buffers'
+     Like 'speechd-speak-auto-speak-buffers' except that the buffer
+     content is read forcibly, even when something else could be read.
+
+   The following variables define how to handle texts inserted during
+performing user commands.  Only newly inserted text is read, the options
+don't affect processing of deleted text.  Also, the options don't affect
+insertions within commands processed in a special way by speechd-el or
+user definitions, like 'self-insert-command'.
+
+'speechd-speak-buffer-insertions'
+     Defines whether insertions in the current buffer should be read
+     automatically.  The value may be one of the following symbols:
+
+     'nil'
+          Don't read the inserted texts.
+
+     't'
+          Read all the inserted texts.
+
+     'one-line'
+          Read only the first lines of inserted texts.
+
+     'whole-buffer'
+          Read whole buffer if it was modified in any way.
+
+'speechd-speak-insertions-in-buffers'
+     List of names of buffers, in which insertions are automatically
+     read, whether the buffer is current or not and regardless the
+     'speechd-speak-buffer-insertions' variable.
+
+'speechd-speak-priority-insertions-in-buffers'
+     List of names of buffers, in which insertions are automatically
+     read immediately as they appear, not only after a command is
+     evaluated as with 'speechd-speak-insertions-in-buffers'.  This is
+     typically useful in comint buffers.
+
+'speechd-speak-align-buffer-insertions'
+     If non-'nil', the insertion text to be read is extended to the
+     beginning of the first word affected by the insertion.  This is
+     particularly useful in completion functions.
+
+   If the last command modified the current buffer and moved its cursor
+to a completely different position, the new cursor position is not
+indicated in the alternative output.  You can change it through the
+following variable:
+
+'speechd-speak-movement-on-insertions'
+     If 't', read the text around new cursor position even when the
+     current buffer was modified.  If 'read-only', read it only in
+     read-only buffers.  If 'nil', don't read it.
+
+
+File: speechd-el.info,  Node: Reading State,  Next: Signalling,  Prev: Auto-Reading Buffers,  Up: Customization
+
+2.4.6 Reading State Changes
+---------------------------
+
+speechd-el can read information about current Emacs state, like current
+buffer name, major and minor modes or other buffer attributes, see *Note
+Informatory Commands::.  Changes in the Emacs state information can be
+reported automatically, according to the user configuration:
+
+'speechd-speak-state-changes'
+     List of identifiers of the Emacs state changes to be automatically
+     reported.  The following symbols are recognized as state change
+     identifiers:
+
+     'buffer-name'
+     'buffer-identification'
+          (only in Emacs 22 or higher)
+     'buffer-modified'
+     'buffer-read-only'
+     'frame-name'
+     'frame-identification'
+          (only in Emacs 22 or higher)
+     'header-line'
+          (only in Emacs 22 or higher)
+     'major-mode'
+     'minor-modes'
+     'buffer-file-coding'
+     'terminal-coding'
+     'input-method'
+     'process'
+
+'speechd-speak-display-modes'
+     List of minor modes to be read by their display string rather than
+     name.  To use the display form of a mode identification may be
+     useful in cases when the display form is more concise than the mode
+     name or when the display form changes without actual change of the
+     mode.
+
+
+File: speechd-el.info,  Node: Signalling,  Next: Text Properties,  Prev: Reading State,  Up: Customization
+
+2.4.7 Signalling
+----------------
+
+Certain situations may be signalled by icons.  "Icon" is typically a
+short sound or a special indication on a Braille display(1) signalling
+some event (such as displaying a message, entering prompt, or reaching
+an empty line).  The following variable enables or disables the
+predefined indications.  To learn how to define your own indications,
+*Note Advanced Customization::.
+
+'speechd-speak-signal-events'
+     List of symbols, containing names of events to signal with an icon.
+     The following event names are supported:
+
+     'start'
+          Start or restart of speechd-el.
+
+     'empty'
+          Empty text in various situations.
+
+     'beginning-of-line'
+          Reaching beginning of line after the 'forward-char' and
+          'backward-char' commands.
+
+     'end-of-line'
+          Reaching end of line after the 'forward-char' and
+          'backward-char' commands.
+
+     'minibuffer'
+          Entering minibuffer.
+
+     'message'
+          Messages in echo area follow.
+
+   ---------- Footnotes ----------
+
+   (1) Icons are not yet implemented this way in the Braille library,
+plain texts are displayed instead.
+
+
+File: speechd-el.info,  Node: Text Properties,  Next: Index marking,  Prev: Signalling,  Up: Customization
+
+2.4.8 Text Properties
+---------------------
+
+By default, after a movement command speechd-el reads the current line.
+But if the cursor position is surrounded by a text having text
+properties (typically faces, but any text properties count), speechd-el
+may read just the piece of the text around the cursor having uniform
+properties.
+
+   Also, if font lock mode is enabled, faces may be mapped to different
+voices.
+
+'speechd-speak-by-properties-on-movement'
+     Method of selection of the piece of text to be read on movement.
+     The variable may take one of the following values.
+
+     'nil'
+          Text properties are not considered at all.
+
+     't'
+          All text properties are considered.
+
+     list of faces
+          Only the named faces are considered.
+
+'speechd-speak-by-properties-always'
+     List of commands that always consider text properties, even when
+     the 'speechd-speak-by-properties-on-movement' variable is 'nil'.
+
+'speechd-speak-by-properties-never'
+     List of commands that never consider text properties, even when the
+     'speechd-speak-by-properties-on-movement' variable is non-'nil'.
+
+'speechd-speak-faces'
+     This variable allows you to invoke actions when the cursor ends up
+     on a certain face after a user command is performed.  The variable
+     value is an alist with elements of the form '(FACE . ACTION)'.
+
+     If a movement command leaves the cursor on a FACE and there is no
+     explicit reading bound to the command, ACTION is invoked.  If
+     ACTION is a string, that string is read.  If ACTION is a function,
+     it is invoked, with no arguments.
+
+'speechd-face-voices'
+     Mapping of faces to voices.  The variable value is an alist with
+     elements of the form '(FACE . VOICE)' where FACE is a face and
+     VOICE is a voice identifier defined in 'speechd-voices', see *note
+     Voices::.  Each face is spoken in the corresponding voice.  If
+     there's no item for a given face in this variable, the face is
+     spoken in the current voice.
+
+     Note that the mapping takes the effect only if font lock mode is
+     enabled.
+
+
+File: speechd-el.info,  Node: Index marking,  Next: Languages,  Prev: Text Properties,  Up: Customization
+
+2.4.9 Index marking
+-------------------
+
+Reading a text with index marking means the cursor is moved over the
+text as the text is read, whenever an inserted index mark is reached.
+Index marking is switched off by default but you can set it up for
+'speechd-speak-read-buffer' and 'speechd-speak-read-rest-of-buffer'
+commands using the following variables:
+
+'speechd-speak-use-index-marks'
+     If non-'nil', index marking is enabled for
+     'speechd-speak-read-buffer' and 'speechd-speak-read-rest-of-buffer'
+     commands.
+
+'speechd-speak-index-mark-regexp'
+     Regular expression defining the places where to put index marks to.
+     An index mark is put at the end of the regexp at each of the
+     places.  If the regular expression is empty (the default), it's
+     taken from 'sentence-end' variable.  If 'sentence-end' is 'nil', a
+     default regular expression matching common punctuation is used.
+
+
+File: speechd-el.info,  Node: Languages,  Next: Voices,  Prev: Index marking,  Up: Customization
+
+2.4.10 Using multiple languages
+-------------------------------
+
+You can use speechd-el with multiple languages.  However, the process
+can't be easily automated, since ordinary text does not contain any
+information about its language.  So if you want to use speechd-el with
+the output being spoken in multiple languages, you must provide
+speechd-el some hints.
+
+   The language settings described below currently apply only to the
+spoken output, to select the proper voice.  They don't affect the
+Braille output; but you may want to set language coding for Braille,
+*Note Connection Setup::.
+
+   The basic means for providing language information to speechd-el is
+the variable 'speechd-language'.  Each time speechd-el is about to speak
+a piece of text, it checks the variable for the language code and if it
+is non-'nil', it speaks the text in the corresponding language.  The
+non-'nil' value must be a string of the RFC 1766 language code (e.g.
+'en', 'cs', etc.).
+
+   Most often you will probably want to set the variable in a particular
+file, see *note (emacs)File Variables::, or as a buffer local variable,
+see *note (emacs)Locals::, in mode hooks, see *note (emacs)Hooks::.
+
+   If a piece of the text has the 'language' property containing the RFC
+1766 language code, it is spoken in the corresponding language,
+regardless of other settings.  You can use the 'speechd-language'
+function to put the property on a string in your Elisp programs.
+
+   Another good way of using multiple languages is to use multiple
+connections for separating language dependent buffers or modes, see
+*note Multiple Connections::, and to set the 'language' parameter for
+each such a connection, see *note Connection Voices::.
+
+   If nothing helps better, you can select languages according to the
+current input method:
+
+'speechd-speak-input-method-languages'
+     Alist mapping input methods to languages.  Each of the alist
+     elements is of the form '(INPUT-METHOD-NAME . LANGUAGE)', where
+     INPUT-METHOD-NAME is a string naming the input method and LANGUAGE
+     is an RFC 1766 language code accepted by SSIP (e.g.  'en', 'cs',
+     etc.).  If the current input method is present in the alist, the
+     corresponding language is selected unless overridden by another
+     setting.
+
+   Some texts in Emacs, such as messages, minibuffer prompts or
+completions, are typically in English.  speechd-el reads them in English
+by default, but it can be instructed to use another language for them:
+
+'speechd-speak-emacs-language'
+     Language to use for texts originating from Emacs.  It's a string
+     containing an RFC 1766 language code accepted by SSIP, 'en' by
+     default.  It can be also 'nil', meaning the language should be
+     unchanged and the current language should be used.
+
+
+File: speechd-el.info,  Node: Voices,  Next: Connection Voices,  Prev: Languages,  Up: Customization
+
+2.4.11 Defining voices
+----------------------
+
+You can define special voices in speechd-el that can be used in
+different situations, e.g.  to speak different faces in different voices
+(*note Text Properties::) or to set different punctuation modes for
+different kinds of buffers (*note Multiple Connections::).  speechd-el
+voices define not only basic voice characteristics, but also speech
+characteristics like pitch or rate and special properties like
+punctuation reading or capital character signalization.
+
+   Voice definition is contained in the following variable:
+
+'speechd-voices'
+     Alist of voice identifiers and their parameters.
+
+     Each element of the list is of the form '(VOICE-ID . PARAMETERS)',
+     where VOICE-ID is a symbol under which the voice will be accessed
+     and PARAMETERS is an alist of parameter identifiers and parameter
+     values.  Valid parameter names are the following symbols:
+     'language', 'gender', 'age', 'style', 'name', 'rate', 'pitch',
+     'volume', 'punctuation-mode', 'capital-character-mode',
+     'message-priority', 'output-module'.  Please note that any
+     parameter entry present will change the corresponding parameter,
+     even if the parameter value is 'nil' or empty; if you don't want to
+     change the parameter in any way by the voice, don't put it to the
+     list (and don't enable its entry in customize).
+
+     'name' value is a string identifying Speech Dispatcher voice name.
+     If it is not given, the parameters 'gender', 'age', and 'style' are
+     considered to select a Speech Dispatcher voice.  'gender' value can
+     be one of the symbols 'male', 'female', 'neutral'.  'age' can be
+     one of the symbols 'middle-adult', 'child'.  'neutral'.  'style'
+     can be one of the numbers '1', '2', '3' ('style' values are likely
+     to be changed in future).
+
+     The 'message-priority' parameter sets priority of any message of
+     the voice.  Its value is any of the message priority symbols.
+
+     See the corresponding 'speechd-set-*' functions for valid values of
+     other parameters.
+
+     The voice named 'nil' is special, it defines a default voice.
+     Explicit definition of its parameters is optional.
+
+
+File: speechd-el.info,  Node: Connection Voices,  Next: Multiple Connections,  Prev: Voices,  Up: Customization
+
+2.4.12 Connection Voices
+------------------------
+
+With the help of the following variable you can let set various
+connection parameters, like speech rate, language, etc., automatically.
+speechd-el can open multiple connections according to various criteria
+(*note Multiple Connections::), you can set different parameters to
+different connections, based on their names.
+
+'speechd-connection-voices'
+     Alist of connection names and corresponding voices.  Each list
+     element is of the form '(CONNECTION-NAME . VOICE)', where
+     CONNECTION-NAME is a connection name given as a string and VOICE is
+     a voice identifier defined in the variable 'speechd-voices'.
+
+     The default voice (named 'nil') is used for connections that are
+     not present in this variable.
+
+   So that changing the value of the variable could take the full
+effect, the open connections must be reopened.  Unless you use the
+customization interface, you must invoke the 'C-u M-x speechd-speak'
+command to ensure this.
+
+   There is a command to help you with setting connection voice and its
+parameters:
+
+'C-e C-a'
+     Store the current connection parameters to a specified voice in the
+     'speechd-voices' variable and set that voice for the current
+     connection in the 'speechd-connection-voices' variable.
+
+     Please note you are still responsible to save the variables if you
+     want to use them in future sessions.
+
+
+File: speechd-el.info,  Node: Multiple Connections,  Next: Keys,  Prev: Connection Voices,  Up: Customization
+
+2.4.13 Multiple Connections
+---------------------------
+
+You can arrange speechd-el to use separate connections to Speech
+Dispatcher for certain buffers or major modes.  This is basically useful
+to allow independent parameter setting for those buffers and major
+modes, both by hand and through the configuration (*note Connection
+Voices::).
+
+   Each Speech Dispatcher connection has its unique name.  By default,
+speechd-el uses a connection named '"default"'.  All you need to create
+a separate connection is to let speechd-el choose a different connection
+name in certain situations.  The process of connection name selection is
+driven by the 'speechd-speak-connections' variable.
+
+'speechd-speak-connections'
+     Alist mapping major modes and buffers to Speech Dispatcher
+     connections.  Each element of the alist is of the form
+     '(MODE-OR-BUFFER . CONNECTION-NAME)'.
+
+     When speechd-el wants to send a message, it tests the current
+     environment against the MODE-OR-BUFFER entries.  MODE-OR-BUFFER may
+     be one of the following objects, in the order of priority from the
+     highest to the lowest:
+
+        * a list, representing a function call that should return a
+          non-'nil' value if and only if the element should be applied
+
+        * regular expression matching desired buffer names
+
+        * the symbol ':minibuffer', representing minibuffers
+
+        * major mode symbol
+
+        * 'nil', representing non-buffer areas, e.g.  echo area
+
+        * 't', representing the default value if nothing else matches
+
+     If more entries match in some situation, the entry with the highest
+     priority is used.
+
+     CONNECTION-NAME is an arbitrary non-empty string naming the
+     corresponding connection.  If no connection with such a name is
+     open in the running speechd-el, it is automatically created when
+     there's something to send to it.
+
+'speechd-cancelable-connections'
+     List of names of connections that are cancelled by default when a
+     cancel function is called.
+
+
+File: speechd-el.info,  Node: Keys,  Next: Braille Display Keys,  Prev: Multiple Connections,  Up: Customization
+
+2.4.14 Keys
+-----------
+
+The command keys of speechd-el are defined by the 'speechd-speak-prefix'
+variable and the 'speechd-speak-mode-map' key map.
+
+'speechd-speak-prefix'
+     This variable defines the prefix key of the speechd-el commands,
+     which is 'C-e' by default.  If you change the variable value after
+     speaking has already been started through the 'speechd-speak'
+     command and you do not set it through the customization interface,
+     you must rerun the 'speechd-speak' so that the change took any
+     effect.
+
+'speechd-speak-mode-map'
+     This key map holds the mapping of the keys following the prefix
+     key.  You can set keys here in the usual way, e.g.
+
+          (define-key speechd-speak-mode-map "t" 'speechd-say-text)
+
+     to get the 'speechd-say-text' command bound to the 'C-e t' key
+     (assuming 'C-e' is the prefix key).
+
+
+File: speechd-el.info,  Node: Braille Display Keys,  Next: Modes,  Prev: Keys,  Up: Customization
+
+2.4.15 Braille Display Keys
+---------------------------
+
+When using Braille display output, speechd-el can bind actions to the
+Braille display keys.  The Braille key bindings are defined in the
+following variables:
+
+'speechd-braille-key-functions'
+     Alist of Braille display key codes and corresponding Emacs
+     functions.  If the given key is pressed, the corresponding function
+     is called with a 'speechd-brltty-driver' instance as its single
+     argument (read the source code for information about speechd-el
+     output drivers).
+
+     The key codes are either integers (for BRLTTY 3.7 and older) or
+     lists containing three integers (for BRLTTY 3.8 and newer).  See
+     the default variable value for examples of possible key codes.
+
+     The assigned functions needn't be interactive.  Actually as the
+     functions may be invoked by asynchronous events any time at any
+     place, they shouldn't modify current environment in any
+     inappropriate way.  For this reason it is recommended _not_ to
+     assign user commands to the keys here.
+
+     'speechd-brltty.el' contains some predefined functions that can be
+     assigned to the Braille display keys here:
+
+     'speechd-brltty-scroll-left'
+          Scroll towards the beginning of the currently displayed
+          message.
+     'speechd-brltty-scroll-right'
+          Scroll towards the end of the currently displayed message.
+     'speechd-brltty-scroll-to-bol'
+          Scroll to the beginning of the currently displayed message.
+     'speechd-brltty-scroll-to-eol'
+          Scroll to the end of the currently displayed message.
+     'speechd-brltty-scroll-to-cursor'
+          Scroll to the cursor position (if any) in the displayed
+          message.
+     'speechd-brltty-finish-message'
+          Stop displaying the current message and display the next one.
+     'speechd-brltty-cancel'
+          Stop displaying the current message and discard all messages
+          waiting in the queue.
+     'speechd-brltty-previous-message'
+          Display the previous message from the history.
+     'speechd-brltty-next-message'
+          Display the next message from the history.
+     'speechd-brltty-first-message'
+          Display the first message in the history.
+     'speechd-brltty-last-message'
+          Display the last message in the history.
+
+     Additionally, the following macro is provided:
+
+     'speechd-brltty-command-key-function KEY'
+          Insert function for handling KEY as a general input key.  This
+          is useful for handling Braille keys acting as general
+          character input keys.
+
+     The 'speechd-braille-key-functions' variable contains some default
+     bindings initially, but as the keys and their codes differ a lot
+     for various Braille displays, you probably need to adjust it for
+     your particular device.  You can figure out the display key codes
+     by setting the 'speechd-braille-show-unknown-keys' variable to 't'
+     and pressing the display keys.
+
+'speechd-braille-show-unknown-keys'
+     If non-'nil', show codes of the pressed Braille keys that have no
+     function assigned in 'speechd-braille-key-functions'.  This is
+     useful to figure out the Braille key codes.
+
+   With BrlTTY 3.8 and higher BrlTTY can handle many braille keys itself
+in X environment.  So speechd-el doesn't try to handle most keys itself
+by default.  Instead it handles only keys assigned in
+'speechd-braille-key-functions'.  If this is a problem, typically when
+looking for braille key codes, the following command can be useful:
+
+'C-e C-b k'
+     Toggle handling braille keys by speechd-el.  If BrlTTY handles the
+     keys (this is the default behavior), speechd-el receives only keys
+     which are assigned to commands in 'speechd-braille-key-functions'.
+     If speechd-el handles the keys, then BrlTTY sends all the pressed
+     keys to speechd-el without processing them itself.
+
+
+File: speechd-el.info,  Node: Modes,  Next: Debugging,  Prev: Braille Display Keys,  Up: Customization
+
+2.4.16 Minor mode hooks
+-----------------------
+
+speechd-el provides a minor mode that enables and disables the reading,
+*Note Starting Alternative Output::.  You can let perform custom actions
+on entering it through the following hook.
+
+'speechd-speak-mode-hook'
+     Hook run when speechd-speak minor mode is enabled.
+
+
+File: speechd-el.info,  Node: Debugging,  Prev: Modes,  Up: Customization
+
+2.4.17 Debugging speechd-el
+---------------------------
+
+When you try to debug speechd-speak functions, you can experience the
+problem of recursive reading in the Elisp debugger.  To avoid it, you
+can instruct speechd-el to be quiet in Elisp debuggers:
+
+'speechd-speak-in-debugger'
+     If 'nil', speechd-speak functions won't be reading in Elisp
+     debuggers.
+
+
+File: speechd-el.info,  Node: Advanced Customization,  Next: Problems,  Prev: Customization,  Up: speechd-el User Manual
+
+2.5 Defining Your Own Command Feedbacks
+=======================================
+
+Writing your own feedback definitions generally requires knowledge of
+Elisp programming.  But don't be afraid, you can set basic things
+without it, just following instructions here.
+
+   speechd-el allows you to say a text, output an icon, or call any
+Elisp expression before or after a command or a function is invoked.
+There are two macros that allow you to do it, while ensuring everything
+is set up properly:
+
+'speechd-speak-command-feedback COMMAND POSITION FEEDBACK'
+     Install feedback invocation on COMMAND.  'command' is a name of an
+     interactive function (use 'C-h C-c' to get a name of the command
+     bound to a given key).
+
+     POSITION may be one of the symbols 'before' and 'after' to call the
+     feedback before or after the command is invoked.
+
+     'feedback' may be a string or any Elisp expression.  If it is a
+     string (a text enclosed in double quotes), it defines a text to be
+     spoken or a sound icon to be played.  If the string starts with an
+     asterisk ('*'), it names a sound icon (the asterisk is not a part
+     of the name), otherwise it is a normal text.
+
+     Example:
+
+          (speechd-speak-command-feedback suspend-emacs before "Suspending Emacs!")
+
+     You can put this line of Elisp code to your '~/.emacs' to ensure
+     you are informed when you invoke the 'suspend-emacs' command
+     (usually bound to 'C-z').
+
+'speechd-speak-function-feedback FUNCTION POSITION FEEDBACK'
+     This is the same as 'speechd-speak-command-feedback', except it is
+     called anytime the given function is invoked, whether interactively
+     or not.  Also, FUNCTION may be any function, not only an
+     interactive command.
+
+   _Please note:_
+
+   * Due to Emacs deficiency, the feedback mechanism may not work on
+     built-in functions.
+
+   * Be careful if you want to install function feedbacks without help
+     of the macros above.  The macros install code ensuring nothing is
+     spoken if 'speechd-speak-mode' is disabled and other similar
+     precautions.  If you do not use them, you should make those
+     precautions yourself.
+
+
+File: speechd-el.info,  Node: Problems,  Next: Tips,  Prev: Advanced Customization,  Up: speechd-el User Manual
+
+2.6 Problems You May Encounter
+==============================
+
+   * _Why are some menu items in Info not read?_
+
+     This is due the way how Emacs fontifies the menu items.  Try to set
+     the 'Info-fontify-maximum-menu-size' variable to '0' to avoid the
+     problem.
+
+   * _How to make appointments read their notifications?_
+
+     Set the variable 'appt-msg-window' to 'nil'.  Also, adding
+     '"diary"' to the 'speechd-speak-auto-speak-buffer' variable may be
+     useful.
+
+   * _How to avoid printing URL when moving through links in w3m-el?_
+
+     Add the following code to your '~/.emacs':
+
+          (defadvice w3m-print-this-url (around my-w3m-print-this-url activate)
+            (when (eq this-command 'w3m-print-this-url)
+              ad-do-it))
+
+   * _How to avoid excessive occurrences of TAB (C-i) and NL (C-j)
+     characters on a Braille display in some buffers (e.g.
+     '*Completion*' buffer)?_
+
+     Braille displays generally display exact content, which is usually
+     what you want.  But sometimes TAB characters are inserted to Emacs
+     buffers for the sole purpose of visual formatting.  You can tell
+     Emacs to suppress this behavior when possible by adding the
+     following code to your '~/.emacs':
+
+          (setq-default indent-tabs-mode nil)
+
+   * _In some situations, when a modified text is read after performing
+     a command, the text is read in separate pieces and some of the
+     pieces are repeated._
+
+     Buffer modifications can be performed by many different ways in
+     Elisp programs.  speechd-el is unable to track them always
+     satisfactory.  If you have a reasonable idea how to improve buffer
+     modification reading, please tell us.
+
+     As a workaround, if you encounter this problem when performing some
+     often used commands, you might want to define your own speaking
+     feedbacks of those commands.  *Note Advanced Customization::, for
+     more details.
+
+   * _There are sometimes small delays (about 1 second) before something
+     is read after a command._
+
+     Maybe Emacs is garbage collecting in the meantime.  Try to increase
+     the value of the 'gc-cons-threshold' variable, e.g.  to 4000000.
+     It may increase or reduce the performance, depending on your
+     environment and particular requirements.
+
+     If you didn't byte compile the source '*.el' files, do so.
+
+     If you are an experienced Elisp hacker and you can find out why
+     speechd-el produces significant amount of data increasing the
+     frequency of garbage collection and how to make the things better,
+     your help is welcome!
+
+   * _During holding down the 'C-n' key, the screen gets frozen and the
+     cursor doesn't move for a while._
+
+     Emacs redisplay routines are generally not invoked when Emacs is
+     busy.  speechd-el combined with your autorepeat may achieve such a
+     state quite easily.  If that's a real problem to you, you can
+     reduce your autorepeat rate or buy a faster computer.
+
+     Also, if you didn't byte compile the source '*.el' files, do so.
+
+     Certainly, any tips increasing speechd-el performance are welcome.
+
+
+File: speechd-el.info,  Node: Tips,  Next: Bug Reporting,  Prev: Problems,  Up: speechd-el User Manual
+
+2.7 Useful Emacs tips
+=====================
+
+Don't forget that Elisp allows you to define many useful functions.
+Typically, you may want to define commands reporting some information,
+which can be easily identified on the Emacs screen, but which is not so
+easily provided in the standard speech output interface.
+
+   Some examples:
+
+   * _Reporting current date in calendar:_
+
+          (defun report-day ()
+            (interactive)
+            (message "%s" (calendar-date-string (calendar-cursor-to-date t))))
+
+   * _Reporting current diary appointments:_
+
+          (defun report-current-appointments ()
+            (interactive)
+            (let ((appt-now-displayed nil))
+              (appt-check)))
+
+   * _Reviewing ispell choices_
+
+     When you invoke the 'ispell-word' command and the checked word is
+     misspelled, ispell offers you the list of alternative spellings.
+     You can let speechd-el repeat the list by pressing 'C-a' in the
+     ispell prompt.  When you want to review the choices closely, press
+     'C-r' to enter recursive edit and then switch to the '*Choices*'
+     window with 'C-x o'.  After you review the choices, you can return
+     back to the ispell prompt by pressing 'C-M-c'.
+
+
+File: speechd-el.info,  Node: Bug Reporting,  Prev: Tips,  Up: speechd-el User Manual
+
+2.8 How to Report speechd-el or Speech Dispatcher Bugs
+======================================================
+
+When you encounter a speechd-el bug, you can report it to us using the
+following command.  Before doing it, please read the whole text of this
+section to allow handling your bug report in a more efficient way.
+
+'M-x speechd-bug'
+     Report a speechd-el or Speech Dispatcher bug.  The command asks you
+     for some information and then asks you whether you can reproduce
+     the bug.  If you can, answer 'y' and start reproducing the bug
+     immediately.  As soon as the bug is reproduced, type 'C-e C-f'.
+     Then you can (and should) further edit the generated mail and send
+     it in the usual way.
+
+'M-x speechd-bug-reproduce'
+     Start reproducing a speechd-el or Speech Dispatcher bug.  All user
+     and Speech Dispatcher actions are watched from this moment.
+
+     Bug reproduction is finished by pressing the 'C-e C-f' keys.  After
+     the bug reproduction is finished, information about it is inserted
+     into the buffer where the 'speechd-bug-reproduce' command was
+     invoked.
+
+     This command is useful when you want to provide information about a
+     bug without generating new bug report.
+
+   When reporting the bugs, please always remember the following
+instructions:
+
+   * Write as much information about the problem as possible.  Describe
+     what doesn't work, what's the expected behavior, what actions have
+     triggered the bug, what's special about your Emacs environment or
+     Speech Dispatcher configuration, etc.  Don't try to analyze too
+     much which information is important and which is not -- everything
+     may be important to the developers, so try not to forget to mention
+     anything that might be important, better more than less.  Missing
+     information may cause the developers won't be able to handle the
+     bug at all.
+
+   * Be as much precise as possible.  Don't expect the developers to
+     know the context or to know the way you typically use Emacs and
+     speechd-el.  Write in exact terms -- instead of just writing "when
+     I invoke foo" write better "when I press the keys 'M-x foo RET',
+     thus invoking the 'foo' command"; or instead of writing "doesn't
+     speak what I expect" write like "speaks 'blah blah' instead of
+     'bleh bleh bleh' what is I expect, since 'bleh bleh bleh' is the
+     text of the whole line".
+
+   * When reproducing the bug, try to have the Speech Dispatcher logging
+     enabled to the highest level -- set the 'LogLevel' option to '5' in
+     your 'speechd.conf' configuration file.
+
+   * When reproducing the bug, don't do any extra actions and invoke
+     'C-e C-f' as soon as the bug is reproduce.  Thus you avoid losing
+     the relevant information of the automatically extracted log files
+     in an unnecessary garbage.
+
+   * You can also look at the Speech Dispatcher bug reporting
+     instructions, see *note (speechd)Reporting Bugs::.
+
+
+File: speechd-el.info,  Node: speechd-el Elisp Library,  Next: Contact Information,  Prev: speechd-el User Manual,  Up: Top
+
+3 speechd-el Emacs Lisp Library
+*******************************
+
+The speechd-el code can be classified into several parts:
+
+   * Low-level libraries for Speech Dispatcher and BrlAPI access
+     implemented in the files 'speechd.el' and 'brltty.el'.
+
+   * General device independent output mechanism defined in the
+     'speechd-out.el' file.  Its particular device implementations are
+     in the files 'speechd-ssip.el' and 'speechd-brltty.el'.
+
+   * User interface implemented in 'speechd-speak.el'.
+
+   You can use the libraries to communicate with Speech Dispatcher,
+BRLTTY or other devices in your own programs.
+
+   Right now, there's no real programmer's manual to the libraries.
+Please read docstrings of available variables, functions and macros.
+
+   Nevertheless, here are some instructions you can and should follow:
+
+   * Don't use any functions, variables or other Lisp objects, names of
+     which start with prefixes separated by double dashes (such as
+     'speechd--' or 'speechd-speak--').  These objects are considered
+     private and may change incompatibly or disappear at any time
+     without notice.
+
+   * If you want to select or create a particular SSIP connection, do so
+     by binding the 'speechd-client-name' variable:
+
+          (let ((speechd-client-name "something"))
+            ... the code using the connection "something" ... )
+
+     Please note it's usually bad idea to open two concurrent Speech
+     Dispatcher connections sharing the same client name.
+
+   * Otherwise there should be no special pitfalls and you should be
+     safe to do anything what makes sense.
+
+   You can also look at *note Advanced Customization::.
+
+
+File: speechd-el.info,  Node: Contact Information,  Next: Copying This Manual,  Prev: speechd-el Elisp Library,  Up: Top
+
+4 Contact Information
+*********************
+
+If you want to report a bug on speechd-el, send complete information
+regarding the bug to the bug tracking address
+<speechd-discuss@nongnu.org>.  If you have a patch to speechd-el, you
+can send it to the same address.
+
+   _Please_, before sending us any bug report, read the bug reporting
+instructions, see *note Bug Reporting::.  Thus you allow us to process
+your bug report more efficiently, resulting in a better response to the
+report and faster resolving of the issue.
+
+   If you have any questions, suggestions, or anything else to tell us,
+feel free to contact us at the e-mail address
+<speechd-discuss@nongnu.org>.
+
+
+File: speechd-el.info,  Node: Copying This Manual,  Next: Index,  Prev: Contact Information,  Up: Top
+
+Appendix A Copying Conditions of This Manual
+********************************************
+
+* Menu:
+
+* GNU Free Documentation License::
+* GNU General Public License::
+
+
+File: speechd-el.info,  Node: GNU Free Documentation License,  Next: GNU General Public License,  Prev: Copying This Manual,  Up: Copying This Manual
+
+A.1 GNU Free Documentation License
+==================================
+
+                      Version 1.2, November 2002
+
+     Copyright (C) 2000,2001,2002 Free Software Foundation, Inc.
+     59 Temple Place, Suite 330, Boston, MA  02111-1307, USA
+
+     Everyone is permitted to copy and distribute verbatim copies
+     of this license document, but changing it is not allowed.
+
+  0. PREAMBLE
+
+     The purpose of this License is to make a manual, textbook, or other
+     functional and useful document "free" in the sense of freedom: to
+     assure everyone the effective freedom to copy and redistribute it,
+     with or without modifying it, either commercially or
+     noncommercially.  Secondarily, this License preserves for the
+     author and publisher a way to get credit for their work, while not
+     being considered responsible for modifications made by others.
+
+     This License is a kind of "copyleft", which means that derivative
+     works of the document must themselves be free in the same sense.
+     It complements the GNU General Public License, which is a copyleft
+     license designed for free software.
+
+     We have designed this License in order to use it for manuals for
+     free software, because free software needs free documentation: a
+     free program should come with manuals providing the same freedoms
+     that the software does.  But this License is not limited to
+     software manuals; it can be used for any textual work, regardless
+     of subject matter or whether it is published as a printed book.  We
+     recommend this License principally for works whose purpose is
+     instruction or reference.
+
+  1. APPLICABILITY AND DEFINITIONS
+
+     This License applies to any manual or other work, in any medium,
+     that contains a notice placed by the copyright holder saying it can
+     be distributed under the terms of this License.  Such a notice
+     grants a world-wide, royalty-free license, unlimited in duration,
+     to use that work under the conditions stated herein.  The
+     "Document", below, refers to any such manual or work.  Any member
+     of the public is a licensee, and is addressed as "you".  You accept
+     the license if you copy, modify or distribute the work in a way
+     requiring permission under copyright law.
+
+     A "Modified Version" of the Document means any work containing the
+     Document or a portion of it, either copied verbatim, or with
+     modifications and/or translated into another language.
+
+     A "Secondary Section" is a named appendix or a front-matter section
+     of the Document that deals exclusively with the relationship of the
+     publishers or authors of the Document to the Document's overall
+     subject (or to related matters) and contains nothing that could
+     fall directly within that overall subject.  (Thus, if the Document
+     is in part a textbook of mathematics, a Secondary Section may not
+     explain any mathematics.)  The relationship could be a matter of
+     historical connection with the subject or with related matters, or
+     of legal, commercial, philosophical, ethical or political position
+     regarding them.
+
+     The "Invariant Sections" are certain Secondary Sections whose
+     titles are designated, as being those of Invariant Sections, in the
+     notice that says that the Document is released under this License.
+     If a section does not fit the above definition of Secondary then it
+     is not allowed to be designated as Invariant.  The Document may
+     contain zero Invariant Sections.  If the Document does not identify
+     any Invariant Sections then there are none.
+
+     The "Cover Texts" are certain short passages of text that are
+     listed, as Front-Cover Texts or Back-Cover Texts, in the notice
+     that says that the Document is released under this License.  A
+     Front-Cover Text may be at most 5 words, and a Back-Cover Text may
+     be at most 25 words.
+
+     A "Transparent" copy of the Document means a machine-readable copy,
+     represented in a format whose specification is available to the
+     general public, that is suitable for revising the document
+     straightforwardly with generic text editors or (for images composed
+     of pixels) generic paint programs or (for drawings) some widely
+     available drawing editor, and that is suitable for input to text
+     formatters or for automatic translation to a variety of formats
+     suitable for input to text formatters.  A copy made in an otherwise
+     Transparent file format whose markup, or absence of markup, has
+     been arranged to thwart or discourage subsequent modification by
+     readers is not Transparent.  An image format is not Transparent if
+     used for any substantial amount of text.  A copy that is not
+     "Transparent" is called "Opaque".
+
+     Examples of suitable formats for Transparent copies include plain
+     ASCII without markup, Texinfo input format, LaTeX input format,
+     SGML or XML using a publicly available DTD, and standard-conforming
+     simple HTML, PostScript or PDF designed for human modification.
+     Examples of transparent image formats include PNG, XCF and JPG.
+     Opaque formats include proprietary formats that can be read and
+     edited only by proprietary word processors, SGML or XML for which
+     the DTD and/or processing tools are not generally available, and
+     the machine-generated HTML, PostScript or PDF produced by some word
+     processors for output purposes only.
+
+     The "Title Page" means, for a printed book, the title page itself,
+     plus such following pages as are needed to hold, legibly, the
+     material this License requires to appear in the title page.  For
+     works in formats which do not have any title page as such, "Title
+     Page" means the text near the most prominent appearance of the
+     work's title, preceding the beginning of the body of the text.
+
+     A section "Entitled XYZ" means a named subunit of the Document
+     whose title either is precisely XYZ or contains XYZ in parentheses
+     following text that translates XYZ in another language.  (Here XYZ
+     stands for a specific section name mentioned below, such as
+     "Acknowledgements", "Dedications", "Endorsements", or "History".)
+     To "Preserve the Title" of such a section when you modify the
+     Document means that it remains a section "Entitled XYZ" according
+     to this definition.
+
+     The Document may include Warranty Disclaimers next to the notice
+     which states that this License applies to the Document.  These
+     Warranty Disclaimers are considered to be included by reference in
+     this License, but only as regards disclaiming warranties: any other
+     implication that these Warranty Disclaimers may have is void and
+     has no effect on the meaning of this License.
+
+  2. VERBATIM COPYING
+
+     You may copy and distribute the Document in any medium, either
+     commercially or noncommercially, provided that this License, the
+     copyright notices, and the license notice saying this License
+     applies to the Document are reproduced in all copies, and that you
+     add no other conditions whatsoever to those of this License.  You
+     may not use technical measures to obstruct or control the reading
+     or further copying of the copies you make or distribute.  However,
+     you may accept compensation in exchange for copies.  If you
+     distribute a large enough number of copies you must also follow the
+     conditions in section 3.
+
+     You may also lend copies, under the same conditions stated above,
+     and you may publicly display copies.
+
+  3. COPYING IN QUANTITY
+
+     If you publish printed copies (or copies in media that commonly
+     have printed covers) of the Document, numbering more than 100, and
+     the Document's license notice requires Cover Texts, you must
+     enclose the copies in covers that carry, clearly and legibly, all
+     these Cover Texts: Front-Cover Texts on the front cover, and
+     Back-Cover Texts on the back cover.  Both covers must also clearly
+     and legibly identify you as the publisher of these copies.  The
+     front cover must present the full title with all words of the title
+     equally prominent and visible.  You may add other material on the
+     covers in addition.  Copying with changes limited to the covers, as
+     long as they preserve the title of the Document and satisfy these
+     conditions, can be treated as verbatim copying in other respects.
+
+     If the required texts for either cover are too voluminous to fit
+     legibly, you should put the first ones listed (as many as fit
+     reasonably) on the actual cover, and continue the rest onto
+     adjacent pages.
+
+     If you publish or distribute Opaque copies of the Document
+     numbering more than 100, you must either include a machine-readable
+     Transparent copy along with each Opaque copy, or state in or with
+     each Opaque copy a computer-network location from which the general
+     network-using public has access to download using public-standard
+     network protocols a complete Transparent copy of the Document, free
+     of added material.  If you use the latter option, you must take
+     reasonably prudent steps, when you begin distribution of Opaque
+     copies in quantity, to ensure that this Transparent copy will
+     remain thus accessible at the stated location until at least one
+     year after the last time you distribute an Opaque copy (directly or
+     through your agents or retailers) of that edition to the public.
+
+     It is requested, but not required, that you contact the authors of
+     the Document well before redistributing any large number of copies,
+     to give them a chance to provide you with an updated version of the
+     Document.
+
+  4. MODIFICATIONS
+
+     You may copy and distribute a Modified Version of the Document
+     under the conditions of sections 2 and 3 above, provided that you
+     release the Modified Version under precisely this License, with the
+     Modified Version filling the role of the Document, thus licensing
+     distribution and modification of the Modified Version to whoever
+     possesses a copy of it.  In addition, you must do these things in
+     the Modified Version:
+
+       A. Use in the Title Page (and on the covers, if any) a title
+          distinct from that of the Document, and from those of previous
+          versions (which should, if there were any, be listed in the
+          History section of the Document).  You may use the same title
+          as a previous version if the original publisher of that
+          version gives permission.
+
+       B. List on the Title Page, as authors, one or more persons or
+          entities responsible for authorship of the modifications in
+          the Modified Version, together with at least five of the
+          principal authors of the Document (all of its principal
+          authors, if it has fewer than five), unless they release you
+          from this requirement.
+
+       C. State on the Title page the name of the publisher of the
+          Modified Version, as the publisher.
+
+       D. Preserve all the copyright notices of the Document.
+
+       E. Add an appropriate copyright notice for your modifications
+          adjacent to the other copyright notices.
+
+       F. Include, immediately after the copyright notices, a license
+          notice giving the public permission to use the Modified
+          Version under the terms of this License, in the form shown in
+          the Addendum below.
+
+       G. Preserve in that license notice the full lists of Invariant
+          Sections and required Cover Texts given in the Document's
+          license notice.
+
+       H. Include an unaltered copy of this License.
+
+       I. Preserve the section Entitled "History", Preserve its Title,
+          and add to it an item stating at least the title, year, new
+          authors, and publisher of the Modified Version as given on the
+          Title Page.  If there is no section Entitled "History" in the
+          Document, create one stating the title, year, authors, and
+          publisher of the Document as given on its Title Page, then add
+          an item describing the Modified Version as stated in the
+          previous sentence.
+
+       J. Preserve the network location, if any, given in the Document
+          for public access to a Transparent copy of the Document, and
+          likewise the network locations given in the Document for
+          previous versions it was based on.  These may be placed in the
+          "History" section.  You may omit a network location for a work
+          that was published at least four years before the Document
+          itself, or if the original publisher of the version it refers
+          to gives permission.
+
+       K. For any section Entitled "Acknowledgements" or "Dedications",
+          Preserve the Title of the section, and preserve in the section
+          all the substance and tone of each of the contributor
+          acknowledgements and/or dedications given therein.
+
+       L. Preserve all the Invariant Sections of the Document, unaltered
+          in their text and in their titles.  Section numbers or the
+          equivalent are not considered part of the section titles.
+
+       M. Delete any section Entitled "Endorsements".  Such a section
+          may not be included in the Modified Version.
+
+       N. Do not retitle any existing section to be Entitled
+          "Endorsements" or to conflict in title with any Invariant
+          Section.
+
+       O. Preserve any Warranty Disclaimers.
+
+     If the Modified Version includes new front-matter sections or
+     appendices that qualify as Secondary Sections and contain no
+     material copied from the Document, you may at your option designate
+     some or all of these sections as invariant.  To do this, add their
+     titles to the list of Invariant Sections in the Modified Version's
+     license notice.  These titles must be distinct from any other
+     section titles.
+
+     You may add a section Entitled "Endorsements", provided it contains
+     nothing but endorsements of your Modified Version by various
+     parties--for example, statements of peer review or that the text
+     has been approved by an organization as the authoritative
+     definition of a standard.
+
+     You may add a passage of up to five words as a Front-Cover Text,
+     and a passage of up to 25 words as a Back-Cover Text, to the end of
+     the list of Cover Texts in the Modified Version.  Only one passage
+     of Front-Cover Text and one of Back-Cover Text may be added by (or
+     through arrangements made by) any one entity.  If the Document
+     already includes a cover text for the same cover, previously added
+     by you or by arrangement made by the same entity you are acting on
+     behalf of, you may not add another; but you may replace the old
+     one, on explicit permission from the previous publisher that added
+     the old one.
+
+     The author(s) and publisher(s) of the Document do not by this
+     License give permission to use their names for publicity for or to
+     assert or imply endorsement of any Modified Version.
+
+  5. COMBINING DOCUMENTS
+
+     You may combine the Document with other documents released under
+     this License, under the terms defined in section 4 above for
+     modified versions, provided that you include in the combination all
+     of the Invariant Sections of all of the original documents,
+     unmodified, and list them all as Invariant Sections of your
+     combined work in its license notice, and that you preserve all
+     their Warranty Disclaimers.
+
+     The combined work need only contain one copy of this License, and
+     multiple identical Invariant Sections may be replaced with a single
+     copy.  If there are multiple Invariant Sections with the same name
+     but different contents, make the title of each such section unique
+     by adding at the end of it, in parentheses, the name of the
+     original author or publisher of that section if known, or else a
+     unique number.  Make the same adjustment to the section titles in
+     the list of Invariant Sections in the license notice of the
+     combined work.
+
+     In the combination, you must combine any sections Entitled
+     "History" in the various original documents, forming one section
+     Entitled "History"; likewise combine any sections Entitled
+     "Acknowledgements", and any sections Entitled "Dedications".  You
+     must delete all sections Entitled "Endorsements."
+
+  6. COLLECTIONS OF DOCUMENTS
+
+     You may make a collection consisting of the Document and other
+     documents released under this License, and replace the individual
+     copies of this License in the various documents with a single copy
+     that is included in the collection, provided that you follow the
+     rules of this License for verbatim copying of each of the documents
+     in all other respects.
+
+     You may extract a single document from such a collection, and
+     distribute it individually under this License, provided you insert
+     a copy of this License into the extracted document, and follow this
+     License in all other respects regarding verbatim copying of that
+     document.
+
+  7. AGGREGATION WITH INDEPENDENT WORKS
+
+     A compilation of the Document or its derivatives with other
+     separate and independent documents or works, in or on a volume of a
+     storage or distribution medium, is called an "aggregate" if the
+     copyright resulting from the compilation is not used to limit the
+     legal rights of the compilation's users beyond what the individual
+     works permit.  When the Document is included in an aggregate, this
+     License does not apply to the other works in the aggregate which
+     are not themselves derivative works of the Document.
+
+     If the Cover Text requirement of section 3 is applicable to these
+     copies of the Document, then if the Document is less than one half
+     of the entire aggregate, the Document's Cover Texts may be placed
+     on covers that bracket the Document within the aggregate, or the
+     electronic equivalent of covers if the Document is in electronic
+     form.  Otherwise they must appear on printed covers that bracket
+     the whole aggregate.
+
+  8. TRANSLATION
+
+     Translation is considered a kind of modification, so you may
+     distribute translations of the Document under the terms of section
+     4.  Replacing Invariant Sections with translations requires special
+     permission from their copyright holders, but you may include
+     translations of some or all Invariant Sections in addition to the
+     original versions of these Invariant Sections.  You may include a
+     translation of this License, and all the license notices in the
+     Document, and any Warranty Disclaimers, provided that you also
+     include the original English version of this License and the
+     original versions of those notices and disclaimers.  In case of a
+     disagreement between the translation and the original version of
+     this License or a notice or disclaimer, the original version will
+     prevail.
+
+     If a section in the Document is Entitled "Acknowledgements",
+     "Dedications", or "History", the requirement (section 4) to
+     Preserve its Title (section 1) will typically require changing the
+     actual title.
+
+  9. TERMINATION
+
+     You may not copy, modify, sublicense, or distribute the Document
+     except as expressly provided for under this License.  Any other
+     attempt to copy, modify, sublicense or distribute the Document is
+     void, and will automatically terminate your rights under this
+     License.  However, parties who have received copies, or rights,
+     from you under this License will not have their licenses terminated
+     so long as such parties remain in full compliance.
+
+  10. FUTURE REVISIONS OF THIS LICENSE
+
+     The Free Software Foundation may publish new, revised versions of
+     the GNU Free Documentation License from time to time.  Such new
+     versions will be similar in spirit to the present version, but may
+     differ in detail to address new problems or concerns.  See
+     <http://www.gnu.org/copyleft/>.
+
+     Each version of the License is given a distinguishing version
+     number.  If the Document specifies that a particular numbered
+     version of this License "or any later version" applies to it, you
+     have the option of following the terms and conditions either of
+     that specified version or of any later version that has been
+     published (not as a draft) by the Free Software Foundation.  If the
+     Document does not specify a version number of this License, you may
+     choose any version ever published (not as a draft) by the Free
+     Software Foundation.
+
+A.1.1 ADDENDUM: How to use this License for your documents
+----------------------------------------------------------
+
+To use this License in a document you have written, include a copy of
+the License in the document and put the following copyright and license
+notices just after the title page:
+
+       Copyright (C)  YEAR  YOUR NAME.
+       Permission is granted to copy, distribute and/or modify this document
+       under the terms of the GNU Free Documentation License, Version 1.2
+       or any later version published by the Free Software Foundation;
+       with no Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.
+       A copy of the license is included in the section entitled ``GNU
+       Free Documentation License''.
+
+   If you have Invariant Sections, Front-Cover Texts and Back-Cover
+Texts, replace the "with...Texts."  line with this:
+
+         with the Invariant Sections being LIST THEIR TITLES, with
+         the Front-Cover Texts being LIST, and with the Back-Cover Texts
+         being LIST.
+
+   If you have Invariant Sections without Cover Texts, or some other
+combination of the three, merge those two alternatives to suit the
+situation.
+
+   If your document contains nontrivial examples of program code, we
+recommend releasing these examples in parallel under your choice of free
+software license, such as the GNU General Public License, to permit
+their use in free software.
+
+
+File: speechd-el.info,  Node: GNU General Public License,  Prev: GNU Free Documentation License,  Up: Copying This Manual
+
+A.2 GNU General Public License
+==============================
+
+                        Version 3, 29 June 2007
+
+     Copyright (C) 2007 Free Software Foundation, Inc. <http://fsf.org/>
+
+     Everyone is permitted to copy and distribute verbatim copies of this
+     license document, but changing it is not allowed.
+
+Preamble
+========
+
+The GNU General Public License is a free, copyleft license for software
+and other kinds of works.
+
+   The licenses for most software and other practical works are designed
+to take away your freedom to share and change the works.  By contrast,
+the GNU General Public License is intended to guarantee your freedom to
+share and change all versions of a program--to make sure it remains free
+software for all its users.  We, the Free Software Foundation, use the
+GNU General Public License for most of our software; it applies also to
+any other work released this way by its authors.  You can apply it to
+your programs, too.
+
+   When we speak of free software, we are referring to freedom, not
+price.  Our General Public Licenses are designed to make sure that you
+have the freedom to distribute copies of free software (and charge for
+them if you wish), that you receive source code or can get it if you
+want it, that you can change the software or use pieces of it in new
+free programs, and that you know you can do these things.
+
+   To protect your rights, we need to prevent others from denying you
+these rights or asking you to surrender the rights.  Therefore, you have
+certain responsibilities if you distribute copies of the software, or if
+you modify it: responsibilities to respect the freedom of others.
+
+   For example, if you distribute copies of such a program, whether
+gratis or for a fee, you must pass on to the recipients the same
+freedoms that you received.  You must make sure that they, too, receive
+or can get the source code.  And you must show them these terms so they
+know their rights.
+
+   Developers that use the GNU GPL protect your rights with two steps:
+(1) assert copyright on the software, and (2) offer you this License
+giving you legal permission to copy, distribute and/or modify it.
+
+   For the developers' and authors' protection, the GPL clearly explains
+that there is no warranty for this free software.  For both users' and
+authors' sake, the GPL requires that modified versions be marked as
+changed, so that their problems will not be attributed erroneously to
+authors of previous versions.
+
+   Some devices are designed to deny users access to install or run
+modified versions of the software inside them, although the manufacturer
+can do so.  This is fundamentally incompatible with the aim of
+protecting users' freedom to change the software.  The systematic
+pattern of such abuse occurs in the area of products for individuals to
+use, which is precisely where it is most unacceptable.  Therefore, we
+have designed this version of the GPL to prohibit the practice for those
+products.  If such problems arise substantially in other domains, we
+stand ready to extend this provision to those domains in future versions
+of the GPL, as needed to protect the freedom of users.
+
+   Finally, every program is threatened constantly by software patents.
+States should not allow patents to restrict development and use of
+software on general-purpose computers, but in those that do, we wish to
+avoid the special danger that patents applied to a free program could
+make it effectively proprietary.  To prevent this, the GPL assures that
+patents cannot be used to render the program non-free.
+
+   The precise terms and conditions for copying, distribution and
+modification follow.
+
+TERMS AND CONDITIONS
+====================
+
+  0. Definitions.
+
+     "This License" refers to version 3 of the GNU General Public
+     License.
+
+     "Copyright" also means copyright-like laws that apply to other
+     kinds of works, such as semiconductor masks.
+
+     "The Program" refers to any copyrightable work licensed under this
+     License.  Each licensee is addressed as "you".  "Licensees" and
+     "recipients" may be individuals or organizations.
+
+     To "modify" a work means to copy from or adapt all or part of the
+     work in a fashion requiring copyright permission, other than the
+     making of an exact copy.  The resulting work is called a "modified
+     version" of the earlier work or a work "based on" the earlier work.
+
+     A "covered work" means either the unmodified Program or a work
+     based on the Program.
+
+     To "propagate" a work means to do anything with it that, without
+     permission, would make you directly or secondarily liable for
+     infringement under applicable copyright law, except executing it on
+     a computer or modifying a private copy.  Propagation includes
+     copying, distribution (with or without modification), making
+     available to the public, and in some countries other activities as
+     well.
+
+     To "convey" a work means any kind of propagation that enables other
+     parties to make or receive copies.  Mere interaction with a user
+     through a computer network, with no transfer of a copy, is not
+     conveying.
+
+     An interactive user interface displays "Appropriate Legal Notices"
+     to the extent that it includes a convenient and prominently visible
+     feature that (1) displays an appropriate copyright notice, and (2)
+     tells the user that there is no warranty for the work (except to
+     the extent that warranties are provided), that licensees may convey
+     the work under this License, and how to view a copy of this
+     License.  If the interface presents a list of user commands or
+     options, such as a menu, a prominent item in the list meets this
+     criterion.
+
+  1. Source Code.
+
+     The "source code" for a work means the preferred form of the work
+     for making modifications to it.  "Object code" means any non-source
+     form of a work.
+
+     A "Standard Interface" means an interface that either is an
+     official standard defined by a recognized standards body, or, in
+     the case of interfaces specified for a particular programming
+     language, one that is widely used among developers working in that
+     language.
+
+     The "System Libraries" of an executable work include anything,
+     other than the work as a whole, that (a) is included in the normal
+     form of packaging a Major Component, but which is not part of that
+     Major Component, and (b) serves only to enable use of the work with
+     that Major Component, or to implement a Standard Interface for
+     which an implementation is available to the public in source code
+     form.  A "Major Component", in this context, means a major
+     essential component (kernel, window system, and so on) of the
+     specific operating system (if any) on which the executable work
+     runs, or a compiler used to produce the work, or an object code
+     interpreter used to run it.
+
+     The "Corresponding Source" for a work in object code form means all
+     the source code needed to generate, install, and (for an executable
+     work) run the object code and to modify the work, including scripts
+     to control those activities.  However, it does not include the
+     work's System Libraries, or general-purpose tools or generally
+     available free programs which are used unmodified in performing
+     those activities but which are not part of the work.  For example,
+     Corresponding Source includes interface definition files associated
+     with source files for the work, and the source code for shared
+     libraries and dynamically linked subprograms that the work is
+     specifically designed to require, such as by intimate data
+     communication or control flow between those subprograms and other
+     parts of the work.
+
+     The Corresponding Source need not include anything that users can
+     regenerate automatically from other parts of the Corresponding
+     Source.
+
+     The Corresponding Source for a work in source code form is that
+     same work.
+
+  2. Basic Permissions.
+
+     All rights granted under this License are granted for the term of
+     copyright on the Program, and are irrevocable provided the stated
+     conditions are met.  This License explicitly affirms your unlimited
+     permission to run the unmodified Program.  The output from running
+     a covered work is covered by this License only if the output, given
+     its content, constitutes a covered work.  This License acknowledges
+     your rights of fair use or other equivalent, as provided by
+     copyright law.
+
+     You may make, run and propagate covered works that you do not
+     convey, without conditions so long as your license otherwise
+     remains in force.  You may convey covered works to others for the
+     sole purpose of having them make modifications exclusively for you,
+     or provide you with facilities for running those works, provided
+     that you comply with the terms of this License in conveying all
+     material for which you do not control copyright.  Those thus making
+     or running the covered works for you must do so exclusively on your
+     behalf, under your direction and control, on terms that prohibit
+     them from making any copies of your copyrighted material outside
+     their relationship with you.
+
+     Conveying under any other circumstances is permitted solely under
+     the conditions stated below.  Sublicensing is not allowed; section
+     10 makes it unnecessary.
+
+  3. Protecting Users' Legal Rights From Anti-Circumvention Law.
+
+     No covered work shall be deemed part of an effective technological
+     measure under any applicable law fulfilling obligations under
+     article 11 of the WIPO copyright treaty adopted on 20 December
+     1996, or similar laws prohibiting or restricting circumvention of
+     such measures.
+
+     When you convey a covered work, you waive any legal power to forbid
+     circumvention of technological measures to the extent such
+     circumvention is effected by exercising rights under this License
+     with respect to the covered work, and you disclaim any intention to
+     limit operation or modification of the work as a means of
+     enforcing, against the work's users, your or third parties' legal
+     rights to forbid circumvention of technological measures.
+
+  4. Conveying Verbatim Copies.
+
+     You may convey verbatim copies of the Program's source code as you
+     receive it, in any medium, provided that you conspicuously and
+     appropriately publish on each copy an appropriate copyright notice;
+     keep intact all notices stating that this License and any
+     non-permissive terms added in accord with section 7 apply to the
+     code; keep intact all notices of the absence of any warranty; and
+     give all recipients a copy of this License along with the Program.
+
+     You may charge any price or no price for each copy that you convey,
+     and you may offer support or warranty protection for a fee.
+
+  5. Conveying Modified Source Versions.
+
+     You may convey a work based on the Program, or the modifications to
+     produce it from the Program, in the form of source code under the
+     terms of section 4, provided that you also meet all of these
+     conditions:
+
+       a. The work must carry prominent notices stating that you
+          modified it, and giving a relevant date.
+
+       b. The work must carry prominent notices stating that it is
+          released under this License and any conditions added under
+          section 7.  This requirement modifies the requirement in
+          section 4 to "keep intact all notices".
+
+       c. You must license the entire work, as a whole, under this
+          License to anyone who comes into possession of a copy.  This
+          License will therefore apply, along with any applicable
+          section 7 additional terms, to the whole of the work, and all
+          its parts, regardless of how they are packaged.  This License
+          gives no permission to license the work in any other way, but
+          it does not invalidate such permission if you have separately
+          received it.
+
+       d. If the work has interactive user interfaces, each must display
+          Appropriate Legal Notices; however, if the Program has
+          interactive interfaces that do not display Appropriate Legal
+          Notices, your work need not make them do so.
+
+     A compilation of a covered work with other separate and independent
+     works, which are not by their nature extensions of the covered
+     work, and which are not combined with it such as to form a larger
+     program, in or on a volume of a storage or distribution medium, is
+     called an "aggregate" if the compilation and its resulting
+     copyright are not used to limit the access or legal rights of the
+     compilation's users beyond what the individual works permit.
+     Inclusion of a covered work in an aggregate does not cause this
+     License to apply to the other parts of the aggregate.
+
+  6. Conveying Non-Source Forms.
+
+     You may convey a covered work in object code form under the terms
+     of sections 4 and 5, provided that you also convey the
+     machine-readable Corresponding Source under the terms of this
+     License, in one of these ways:
+
+       a. Convey the object code in, or embodied in, a physical product
+          (including a physical distribution medium), accompanied by the
+          Corresponding Source fixed on a durable physical medium
+          customarily used for software interchange.
+
+       b. Convey the object code in, or embodied in, a physical product
+          (including a physical distribution medium), accompanied by a
+          written offer, valid for at least three years and valid for as
+          long as you offer spare parts or customer support for that
+          product model, to give anyone who possesses the object code
+          either (1) a copy of the Corresponding Source for all the
+          software in the product that is covered by this License, on a
+          durable physical medium customarily used for software
+          interchange, for a price no more than your reasonable cost of
+          physically performing this conveying of source, or (2) access
+          to copy the Corresponding Source from a network server at no
+          charge.
+
+       c. Convey individual copies of the object code with a copy of the
+          written offer to provide the Corresponding Source.  This
+          alternative is allowed only occasionally and noncommercially,
+          and only if you received the object code with such an offer,
+          in accord with subsection 6b.
+
+       d. Convey the object code by offering access from a designated
+          place (gratis or for a charge), and offer equivalent access to
+          the Corresponding Source in the same way through the same
+          place at no further charge.  You need not require recipients
+          to copy the Corresponding Source along with the object code.
+          If the place to copy the object code is a network server, the
+          Corresponding Source may be on a different server (operated by
+          you or a third party) that supports equivalent copying
+          facilities, provided you maintain clear directions next to the
+          object code saying where to find the Corresponding Source.
+          Regardless of what server hosts the Corresponding Source, you
+          remain obligated to ensure that it is available for as long as
+          needed to satisfy these requirements.
+
+       e. Convey the object code using peer-to-peer transmission,
+          provided you inform other peers where the object code and
+          Corresponding Source of the work are being offered to the
+          general public at no charge under subsection 6d.
+
+     A separable portion of the object code, whose source code is
+     excluded from the Corresponding Source as a System Library, need
+     not be included in conveying the object code work.
+
+     A "User Product" is either (1) a "consumer product", which means
+     any tangible personal property which is normally used for personal,
+     family, or household purposes, or (2) anything designed or sold for
+     incorporation into a dwelling.  In determining whether a product is
+     a consumer product, doubtful cases shall be resolved in favor of
+     coverage.  For a particular product received by a particular user,
+     "normally used" refers to a typical or common use of that class of
+     product, regardless of the status of the particular user or of the
+     way in which the particular user actually uses, or expects or is
+     expected to use, the product.  A product is a consumer product
+     regardless of whether the product has substantial commercial,
+     industrial or non-consumer uses, unless such uses represent the
+     only significant mode of use of the product.
+
+     "Installation Information" for a User Product means any methods,
+     procedures, authorization keys, or other information required to
+     install and execute modified versions of a covered work in that
+     User Product from a modified version of its Corresponding Source.
+     The information must suffice to ensure that the continued
+     functioning of the modified object code is in no case prevented or
+     interfered with solely because modification has been made.
+
+     If you convey an object code work under this section in, or with,
+     or specifically for use in, a User Product, and the conveying
+     occurs as part of a transaction in which the right of possession
+     and use of the User Product is transferred to the recipient in
+     perpetuity or for a fixed term (regardless of how the transaction
+     is characterized), the Corresponding Source conveyed under this
+     section must be accompanied by the Installation Information.  But
+     this requirement does not apply if neither you nor any third party
+     retains the ability to install modified object code on the User
+     Product (for example, the work has been installed in ROM).
+
+     The requirement to provide Installation Information does not
+     include a requirement to continue to provide support service,
+     warranty, or updates for a work that has been modified or installed
+     by the recipient, or for the User Product in which it has been
+     modified or installed.  Access to a network may be denied when the
+     modification itself materially and adversely affects the operation
+     of the network or violates the rules and protocols for
+     communication across the network.
+
+     Corresponding Source conveyed, and Installation Information
+     provided, in accord with this section must be in a format that is
+     publicly documented (and with an implementation available to the
+     public in source code form), and must require no special password
+     or key for unpacking, reading or copying.
+
+  7. Additional Terms.
+
+     "Additional permissions" are terms that supplement the terms of
+     this License by making exceptions from one or more of its
+     conditions.  Additional permissions that are applicable to the
+     entire Program shall be treated as though they were included in
+     this License, to the extent that they are valid under applicable
+     law.  If additional permissions apply only to part of the Program,
+     that part may be used separately under those permissions, but the
+     entire Program remains governed by this License without regard to
+     the additional permissions.
+
+     When you convey a copy of a covered work, you may at your option
+     remove any additional permissions from that copy, or from any part
+     of it.  (Additional permissions may be written to require their own
+     removal in certain cases when you modify the work.)  You may place
+     additional permissions on material, added by you to a covered work,
+     for which you have or can give appropriate copyright permission.
+
+     Notwithstanding any other provision of this License, for material
+     you add to a covered work, you may (if authorized by the copyright
+     holders of that material) supplement the terms of this License with
+     terms:
+
+       a. Disclaiming warranty or limiting liability differently from
+          the terms of sections 15 and 16 of this License; or
+
+       b. Requiring preservation of specified reasonable legal notices
+          or author attributions in that material or in the Appropriate
+          Legal Notices displayed by works containing it; or
+
+       c. Prohibiting misrepresentation of the origin of that material,
+          or requiring that modified versions of such material be marked
+          in reasonable ways as different from the original version; or
+
+       d. Limiting the use for publicity purposes of names of licensors
+          or authors of the material; or
+
+       e. Declining to grant rights under trademark law for use of some
+          trade names, trademarks, or service marks; or
+
+       f. Requiring indemnification of licensors and authors of that
+          material by anyone who conveys the material (or modified
+          versions of it) with contractual assumptions of liability to
+          the recipient, for any liability that these contractual
+          assumptions directly impose on those licensors and authors.
+
+     All other non-permissive additional terms are considered "further
+     restrictions" within the meaning of section 10.  If the Program as
+     you received it, or any part of it, contains a notice stating that
+     it is governed by this License along with a term that is a further
+     restriction, you may remove that term.  If a license document
+     contains a further restriction but permits relicensing or conveying
+     under this License, you may add to a covered work material governed
+     by the terms of that license document, provided that the further
+     restriction does not survive such relicensing or conveying.
+
+     If you add terms to a covered work in accord with this section, you
+     must place, in the relevant source files, a statement of the
+     additional terms that apply to those files, or a notice indicating
+     where to find the applicable terms.
+
+     Additional terms, permissive or non-permissive, may be stated in
+     the form of a separately written license, or stated as exceptions;
+     the above requirements apply either way.
+
+  8. Termination.
+
+     You may not propagate or modify a covered work except as expressly
+     provided under this License.  Any attempt otherwise to propagate or
+     modify it is void, and will automatically terminate your rights
+     under this License (including any patent licenses granted under the
+     third paragraph of section 11).
+
+     However, if you cease all violation of this License, then your
+     license from a particular copyright holder is reinstated (a)
+     provisionally, unless and until the copyright holder explicitly and
+     finally terminates your license, and (b) permanently, if the
+     copyright holder fails to notify you of the violation by some
+     reasonable means prior to 60 days after the cessation.
+
+     Moreover, your license from a particular copyright holder is
+     reinstated permanently if the copyright holder notifies you of the
+     violation by some reasonable means, this is the first time you have
+     received notice of violation of this License (for any work) from
+     that copyright holder, and you cure the violation prior to 30 days
+     after your receipt of the notice.
+
+     Termination of your rights under this section does not terminate
+     the licenses of parties who have received copies or rights from you
+     under this License.  If your rights have been terminated and not
+     permanently reinstated, you do not qualify to receive new licenses
+     for the same material under section 10.
+
+  9. Acceptance Not Required for Having Copies.
+
+     You are not required to accept this License in order to receive or
+     run a copy of the Program.  Ancillary propagation of a covered work
+     occurring solely as a consequence of using peer-to-peer
+     transmission to receive a copy likewise does not require
+     acceptance.  However, nothing other than this License grants you
+     permission to propagate or modify any covered work.  These actions
+     infringe copyright if you do not accept this License.  Therefore,
+     by modifying or propagating a covered work, you indicate your
+     acceptance of this License to do so.
+
+  10. Automatic Licensing of Downstream Recipients.
+
+     Each time you convey a covered work, the recipient automatically
+     receives a license from the original licensors, to run, modify and
+     propagate that work, subject to this License.  You are not
+     responsible for enforcing compliance by third parties with this
+     License.
+
+     An "entity transaction" is a transaction transferring control of an
+     organization, or substantially all assets of one, or subdividing an
+     organization, or merging organizations.  If propagation of a
+     covered work results from an entity transaction, each party to that
+     transaction who receives a copy of the work also receives whatever
+     licenses to the work the party's predecessor in interest had or
+     could give under the previous paragraph, plus a right to possession
+     of the Corresponding Source of the work from the predecessor in
+     interest, if the predecessor has it or can get it with reasonable
+     efforts.
+
+     You may not impose any further restrictions on the exercise of the
+     rights granted or affirmed under this License.  For example, you
+     may not impose a license fee, royalty, or other charge for exercise
+     of rights granted under this License, and you may not initiate
+     litigation (including a cross-claim or counterclaim in a lawsuit)
+     alleging that any patent claim is infringed by making, using,
+     selling, offering for sale, or importing the Program or any portion
+     of it.
+
+  11. Patents.
+
+     A "contributor" is a copyright holder who authorizes use under this
+     License of the Program or a work on which the Program is based.
+     The work thus licensed is called the contributor's "contributor
+     version".
+
+     A contributor's "essential patent claims" are all patent claims
+     owned or controlled by the contributor, whether already acquired or
+     hereafter acquired, that would be infringed by some manner,
+     permitted by this License, of making, using, or selling its
+     contributor version, but do not include claims that would be
+     infringed only as a consequence of further modification of the
+     contributor version.  For purposes of this definition, "control"
+     includes the right to grant patent sublicenses in a manner
+     consistent with the requirements of this License.
+
+     Each contributor grants you a non-exclusive, worldwide,
+     royalty-free patent license under the contributor's essential
+     patent claims, to make, use, sell, offer for sale, import and
+     otherwise run, modify and propagate the contents of its contributor
+     version.
+
+     In the following three paragraphs, a "patent license" is any
+     express agreement or commitment, however denominated, not to
+     enforce a patent (such as an express permission to practice a
+     patent or covenant not to sue for patent infringement).  To "grant"
+     such a patent license to a party means to make such an agreement or
+     commitment not to enforce a patent against the party.
+
+     If you convey a covered work, knowingly relying on a patent
+     license, and the Corresponding Source of the work is not available
+     for anyone to copy, free of charge and under the terms of this
+     License, through a publicly available network server or other
+     readily accessible means, then you must either (1) cause the
+     Corresponding Source to be so available, or (2) arrange to deprive
+     yourself of the benefit of the patent license for this particular
+     work, or (3) arrange, in a manner consistent with the requirements
+     of this License, to extend the patent license to downstream
+     recipients.  "Knowingly relying" means you have actual knowledge
+     that, but for the patent license, your conveying the covered work
+     in a country, or your recipient's use of the covered work in a
+     country, would infringe one or more identifiable patents in that
+     country that you have reason to believe are valid.
+
+     If, pursuant to or in connection with a single transaction or
+     arrangement, you convey, or propagate by procuring conveyance of, a
+     covered work, and grant a patent license to some of the parties
+     receiving the covered work authorizing them to use, propagate,
+     modify or convey a specific copy of the covered work, then the
+     patent license you grant is automatically extended to all
+     recipients of the covered work and works based on it.
+
+     A patent license is "discriminatory" if it does not include within
+     the scope of its coverage, prohibits the exercise of, or is
+     conditioned on the non-exercise of one or more of the rights that
+     are specifically granted under this License.  You may not convey a
+     covered work if you are a party to an arrangement with a third
+     party that is in the business of distributing software, under which
+     you make payment to the third party based on the extent of your
+     activity of conveying the work, and under which the third party
+     grants, to any of the parties who would receive the covered work
+     from you, a discriminatory patent license (a) in connection with
+     copies of the covered work conveyed by you (or copies made from
+     those copies), or (b) primarily for and in connection with specific
+     products or compilations that contain the covered work, unless you
+     entered into that arrangement, or that patent license was granted,
+     prior to 28 March 2007.
+
+     Nothing in this License shall be construed as excluding or limiting
+     any implied license or other defenses to infringement that may
+     otherwise be available to you under applicable patent law.
+
+  12. No Surrender of Others' Freedom.
+
+     If conditions are imposed on you (whether by court order, agreement
+     or otherwise) that contradict the conditions of this License, they
+     do not excuse you from the conditions of this License.  If you
+     cannot convey a covered work so as to satisfy simultaneously your
+     obligations under this License and any other pertinent obligations,
+     then as a consequence you may not convey it at all.  For example,
+     if you agree to terms that obligate you to collect a royalty for
+     further conveying from those to whom you convey the Program, the
+     only way you could satisfy both those terms and this License would
+     be to refrain entirely from conveying the Program.
+
+  13. Use with the GNU Affero General Public License.
+
+     Notwithstanding any other provision of this License, you have
+     permission to link or combine any covered work with a work licensed
+     under version 3 of the GNU Affero General Public License into a
+     single combined work, and to convey the resulting work.  The terms
+     of this License will continue to apply to the part which is the
+     covered work, but the special requirements of the GNU Affero
+     General Public License, section 13, concerning interaction through
+     a network will apply to the combination as such.
+
+  14. Revised Versions of this License.
+
+     The Free Software Foundation may publish revised and/or new
+     versions of the GNU General Public License from time to time.  Such
+     new versions will be similar in spirit to the present version, but
+     may differ in detail to address new problems or concerns.
+
+     Each version is given a distinguishing version number.  If the
+     Program specifies that a certain numbered version of the GNU
+     General Public License "or any later version" applies to it, you
+     have the option of following the terms and conditions either of
+     that numbered version or of any later version published by the Free
+     Software Foundation.  If the Program does not specify a version
+     number of the GNU General Public License, you may choose any
+     version ever published by the Free Software Foundation.
+
+     If the Program specifies that a proxy can decide which future
+     versions of the GNU General Public License can be used, that
+     proxy's public statement of acceptance of a version permanently
+     authorizes you to choose that version for the Program.
+
+     Later license versions may give you additional or different
+     permissions.  However, no additional obligations are imposed on any
+     author or copyright holder as a result of your choosing to follow a
+     later version.
+
+  15. Disclaimer of Warranty.
+
+     THERE IS NO WARRANTY FOR THE PROGRAM, TO THE EXTENT PERMITTED BY
+     APPLICABLE LAW. EXCEPT WHEN OTHERWISE STATED IN WRITING THE
+     COPYRIGHT HOLDERS AND/OR OTHER PARTIES PROVIDE THE PROGRAM "AS IS"
+     WITHOUT WARRANTY OF ANY KIND, EITHER EXPRESSED OR IMPLIED,
+     INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
+     MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE. THE ENTIRE
+     RISK AS TO THE QUALITY AND PERFORMANCE OF THE PROGRAM IS WITH YOU.
+     SHOULD THE PROGRAM PROVE DEFECTIVE, YOU ASSUME THE COST OF ALL
+     NECESSARY SERVICING, REPAIR OR CORRECTION.
+
+  16. Limitation of Liability.
+
+     IN NO EVENT UNLESS REQUIRED BY APPLICABLE LAW OR AGREED TO IN
+     WRITING WILL ANY COPYRIGHT HOLDER, OR ANY OTHER PARTY WHO MODIFIES
+     AND/OR CONVEYS THE PROGRAM AS PERMITTED ABOVE, BE LIABLE TO YOU FOR
+     DAMAGES, INCLUDING ANY GENERAL, SPECIAL, INCIDENTAL OR
+     CONSEQUENTIAL DAMAGES ARISING OUT OF THE USE OR INABILITY TO USE
+     THE PROGRAM (INCLUDING BUT NOT LIMITED TO LOSS OF DATA OR DATA
+     BEING RENDERED INACCURATE OR LOSSES SUSTAINED BY YOU OR THIRD
+     PARTIES OR A FAILURE OF THE PROGRAM TO OPERATE WITH ANY OTHER
+     PROGRAMS), EVEN IF SUCH HOLDER OR OTHER PARTY HAS BEEN ADVISED OF
+     THE POSSIBILITY OF SUCH DAMAGES.
+
+  17. Interpretation of Sections 15 and 16.
+
+     If the disclaimer of warranty and limitation of liability provided
+     above cannot be given local legal effect according to their terms,
+     reviewing courts shall apply local law that most closely
+     approximates an absolute waiver of all civil liability in
+     connection with the Program, unless a warranty or assumption of
+     liability accompanies a copy of the Program in return for a fee.
+
+END OF TERMS AND CONDITIONS
+===========================
+
+How to Apply These Terms to Your New Programs
+=============================================
+
+If you develop a new program, and you want it to be of the greatest
+possible use to the public, the best way to achieve this is to make it
+free software which everyone can redistribute and change under these
+terms.
+
+   To do so, attach the following notices to the program.  It is safest
+to attach them to the start of each source file to most effectively
+state the exclusion of warranty; and each file should have at least the
+"copyright" line and a pointer to where the full notice is found.
+
+     ONE LINE TO GIVE THE PROGRAM'S NAME AND A BRIEF IDEA OF WHAT IT DOES.
+     Copyright (C) YEAR NAME OF AUTHOR
+
+     This program is free software: you can redistribute it and/or modify
+     it under the terms of the GNU General Public License as published by
+     the Free Software Foundation, either version 3 of the License, or (at
+     your option) any later version.
+
+     This program is distributed in the hope that it will be useful, but
+     WITHOUT ANY WARRANTY; without even the implied warranty of
+     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+     General Public License for more details.
+
+     You should have received a copy of the GNU General Public License
+     along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+   Also add information on how to contact you by electronic and paper
+mail.
+
+   If the program does terminal interaction, make it output a short
+notice like this when it starts in an interactive mode:
+
+     PROGRAM Copyright (C) YEAR NAME OF AUTHOR
+     This program comes with ABSOLUTELY NO WARRANTY; for details type 'show w'.
+     This is free software, and you are welcome to redistribute it
+     under certain conditions; type 'show c' for details.
+
+   The hypothetical commands 'show w' and 'show c' should show the
+appropriate parts of the General Public License.  Of course, your
+program's commands might be different; for a GUI interface, you would
+use an "about box".
+
+   You should also get your employer (if you work as a programmer) or
+school, if any, to sign a "copyright disclaimer" for the program, if
+necessary.  For more information on this, and how to apply and follow
+the GNU GPL, see <http://www.gnu.org/licenses/>.
+
+   The GNU General Public License does not permit incorporating your
+program into proprietary programs.  If your program is a subroutine
+library, you may consider it more useful to permit linking proprietary
+applications with the library.  If this is what you want to do, use the
+GNU Lesser General Public License instead of this License.  But first,
+please read <http://www.gnu.org/philosophy/why-not-lgpl.html>.
+
+
+File: speechd-el.info,  Node: Index,  Prev: Copying This Manual,  Up: Top
+
+Index
+*****
+
+ [index ]
+* Menu:
+
+* appointments:                          Problems.             (line 12)
+* appointments <1>:                      Tips.                 (line 21)
+* authors:                               Contact Information.  (line  6)
+* beginning of line:                     Signalling.           (line 24)
+* Braille functions:                     Braille Display Keys. (line 30)
+* Braille keys:                          Braille Display Keys. (line  6)
+* BrlAPI:                                Components.           (line 10)
+* BRLTTY:                                speechd-el User Manual.
+                                                               (line 19)
+* BRLTTY <1>:                            Installation.         (line 35)
+* brltty-authentication-file:            Connection Setup.     (line 55)
+* brltty-coding:                         Connection Setup.     (line 60)
+* brltty-default-host:                   Connection Setup.     (line 45)
+* brltty-default-port:                   Connection Setup.     (line 49)
+* brltty-timeout:                        Connection Setup.     (line 73)
+* brltty-tty:                            Connection Setup.     (line 66)
+* buffer:                                Informatory Commands. (line  7)
+* buffer names:                          Basic Speaking.       (line 23)
+* buffers:                               Auto-Reading Buffers. (line  6)
+* bug reporting:                         Bug Reporting.        (line  6)
+* bugs:                                  Contact Information.  (line  6)
+* C-e ':                                 Reading Commands.     (line 43)
+* C-e .:                                 Reading Commands.     (line 33)
+* C-e 1:                                 Control Commands.     (line 41)
+* C-e 2:                                 Control Commands.     (line 41)
+* C-e 3:                                 Control Commands.     (line 41)
+* C-e 4:                                 Control Commands.     (line 41)
+* C-e 5:                                 Control Commands.     (line 41)
+* C-e 6:                                 Control Commands.     (line 41)
+* C-e 7:                                 Control Commands.     (line 41)
+* C-e 8:                                 Control Commands.     (line 41)
+* C-e 9:                                 Control Commands.     (line 41)
+* C-e >:                                 Reading Commands.     (line 16)
+* C-e b:                                 Reading Commands.     (line 13)
+* C-e c:                                 Reading Commands.     (line 47)
+* C-e C-a:                               Connection Voices.    (line 30)
+* C-e C-b k:                             Braille Display Keys. (line 82)
+* C-e C-f:                               Bug Reporting.        (line 19)
+* C-e C-l:                               Spelling.             (line 14)
+* C-e C-n:                               Reading Commands.     (line 51)
+* C-e C-p:                               Reading Commands.     (line 54)
+* C-e C-r:                               Reading Commands.     (line 27)
+* C-e C-s:                               Starting Alternative Output.
+                                                               (line 14)
+* C-e C-x:                               Other Commands.       (line 12)
+* C-e d .:                               Parameter Setting Commands.
+                                                               (line 20)
+* C-e d c:                               Parameter Setting Commands.
+                                                               (line 26)
+* C-e d C-v:                             Parameter Setting Commands.
+                                                               (line 38)
+* C-e d l:                               Parameter Setting Commands.
+                                                               (line 16)
+* C-e d o:                               Parameter Setting Commands.
+                                                               (line 62)
+* C-e d p:                               Parameter Setting Commands.
+                                                               (line 52)
+* C-e d r:                               Parameter Setting Commands.
+                                                               (line 46)
+* C-e d v:                               Parameter Setting Commands.
+                                                               (line 33)
+* C-e d V:                               Parameter Setting Commands.
+                                                               (line 56)
+* C-e i:                                 Reading Commands.     (line 65)
+* C-e l:                                 Reading Commands.     (line  7)
+* C-e m:                                 Reading Commands.     (line 57)
+* C-e o:                                 Reading Commands.     (line 20)
+* C-e p:                                 Control Commands.     (line 24)
+* C-e q:                                 Control Commands.     (line  7)
+* C-e r:                                 Reading Commands.     (line 24)
+* C-e RET:                               Reading Commands.     (line 60)
+* C-e s:                                 Control Commands.     (line 11)
+* C-e SPC:                               Control Commands.     (line 29)
+* C-e w:                                 Reading Commands.     (line 30)
+* C-e x:                                 Control Commands.     (line 17)
+* C-e z:                                 Other Commands.       (line 19)
+* C-e [:                                 Reading Commands.     (line 40)
+* C-e {:                                 Reading Commands.     (line 36)
+* C-x C-c:                               Other Commands.       (line  6)
+* capital character mode:                Parameter Setting Commands.
+                                                               (line 26)
+* character reading prompts:             Reading Commands.     (line 69)
+* coding systems:                        Informatory Commands. (line 24)
+* command keys:                          Basic Speaking.       (line 39)
+* command keys <1>:                      Basic Speaking.       (line 61)
+* command name:                          Basic Speaking.       (line 64)
+* connections:                           Multiple Connections. (line  6)
+* contact:                               Contact Information.  (line  6)
+* cursor:                                Text Properties.      (line  6)
+* cursor movement:                       Index marking.        (line  6)
+* day in calendar:                       Tips.                 (line 15)
+* debugging:                             Debugging.            (line  6)
+* delays:                                Problems.             (line 52)
+* deletions:                             Basic Speaking.       (line 18)
+* diary:                                 Problems.             (line 12)
+* echoing:                               Basic Speaking.       (line  7)
+* empty text:                            Signalling.           (line 21)
+* end of line:                           Signalling.           (line 28)
+* extensions:                            Advanced Customization.
+                                                               (line  6)
+* faces:                                 Text Properties.      (line  6)
+* FDL, GNU Free Documentation License:   GNU Free Documentation License.
+                                                               (line  6)
+* features:                              Feature List.         (line  6)
+* frame:                                 Informatory Commands. (line 11)
+* garbage collection:                    Problems.             (line 52)
+* gc-cons-threshold:                     Problems.             (line 52)
+* global-speechd-speak-mode:             Starting Alternative Output.
+                                                               (line 41)
+* GPL, GNU General Public License:       GNU General Public License.
+                                                               (line  6)
+* header line:                           Informatory Commands. (line 14)
+* hooks:                                 Modes.                (line  6)
+* host:                                  Connection Setup.     (line 18)
+* icons:                                 Signalling.           (line  6)
+* index marking:                         Index marking.        (line  6)
+* Info:                                  Problems.             (line  6)
+* input method:                          Informatory Commands. (line 28)
+* inserted text:                         Auto-Reading Buffers. (line  6)
+* ispell:                                Tips.                 (line 28)
+* key map:                               Keys.                 (line  6)
+* keys:                                  Basic Speaking.       (line 39)
+* keys <1>:                              Basic Speaking.       (line 61)
+* keys <2>:                              Keys.                 (line  6)
+* language:                              Parameter Setting Commands.
+                                                               (line 16)
+* language text property:                Languages.            (line 28)
+* languages:                             Languages.            (line  6)
+* line:                                  Signalling.           (line 24)
+* line reading:                          Basic Speaking.       (line 30)
+* M-x speechd-bug:                       Bug Reporting.        (line 10)
+* M-x speechd-bug-reproduce:             Bug Reporting.        (line 18)
+* M-x speechd-out-disable-driver:        Driver Selection.     (line 23)
+* M-x speechd-out-enable-driver:         Driver Selection.     (line 20)
+* messages:                              Basic Speaking.       (line 69)
+* minibuffer:                            Basic Speaking.       (line 34)
+* minor modes:                           Starting Alternative Output.
+                                                               (line 28)
+* minor modes <1>:                       Modes.                (line  6)
+* mode line:                             Reading Commands.     (line 60)
+* modes:                                 Informatory Commands. (line 20)
+* movement:                              Text Properties.      (line  6)
+* output module:                         Parameter Setting Commands.
+                                                               (line 62)
+* parameters:                            Parameter Setting Commands.
+                                                               (line  6)
+* parameters <1>:                        Voices.               (line  6)
+* pause:                                 Control Commands.     (line 24)
+* pitch:                                 Parameter Setting Commands.
+                                                               (line 52)
+* port:                                  Connection Setup.     (line 25)
+* prefix key:                            Keys.                 (line  6)
+* priorities:                            Default Priorities.   (line  6)
+* problems:                              Problems.             (line  6)
+* process:                               Informatory Commands. (line 32)
+* punctuation mode:                      Parameter Setting Commands.
+                                                               (line 20)
+* rate:                                  Control Commands.     (line 41)
+* rate <1>:                              Parameter Setting Commands.
+                                                               (line 46)
+* read-char:                             Reading Commands.     (line 69)
+* recovery:                              Other Commands.       (line 12)
+* repeated reading:                      Problems.             (line 38)
+* repeating:                             Basic Speaking.       (line 69)
+* resume:                                Control Commands.     (line 29)
+* RFC 1766:                              Languages.            (line 17)
+* shutting up:                           Control Commands.     (line  7)
+* Speech Dispatcher:                     Installation.         (line 32)
+* speechd-add-connection-settings:       Connection Voices.    (line 30)
+* speechd-autospawn:                     Connection Setup.     (line 30)
+* speechd-braille-key-functions:         Braille Display Keys. (line 10)
+* speechd-braille-show-unknown-keys:     Braille Display Keys. (line 70)
+* speechd-brltty-cancel:                 Braille Display Keys. (line 44)
+* speechd-brltty-command-key-function KEY: Braille Display Keys.
+                                                               (line 58)
+* speechd-brltty-finish-message:         Braille Display Keys. (line 42)
+* speechd-brltty-first-message:          Braille Display Keys. (line 51)
+* speechd-brltty-last-message:           Braille Display Keys. (line 53)
+* speechd-brltty-next-message:           Braille Display Keys. (line 49)
+* speechd-brltty-previous-message:       Braille Display Keys. (line 47)
+* speechd-brltty-scroll-left:            Braille Display Keys. (line 30)
+* speechd-brltty-scroll-right:           Braille Display Keys. (line 33)
+* speechd-brltty-scroll-to-bol:          Braille Display Keys. (line 35)
+* speechd-brltty-scroll-to-cursor:       Braille Display Keys. (line 39)
+* speechd-brltty-scroll-to-eol:          Braille Display Keys. (line 37)
+* speechd-bug:                           Bug Reporting.        (line 11)
+* speechd-bug-reproduce:                 Bug Reporting.        (line 19)
+* speechd-cancel:                        Control Commands.     (line 17)
+* speechd-cancelable-connections:        Multiple Connections. (line 49)
+* speechd-client-name:                   speechd-el Elisp Library.
+                                                               (line 31)
+* speechd-connection-method:             Connection Setup.     (line 12)
+* speechd-connection-voices:             Connection Voices.    (line 12)
+* speechd-default-char-priority:         Default Priorities.   (line 25)
+* speechd-default-key-priority:          Default Priorities.   (line 28)
+* speechd-default-sound-priority:        Default Priorities.   (line 22)
+* speechd-default-text-priority:         Default Priorities.   (line 19)
+* speechd-face-voices:                   Text Properties.      (line 46)
+* speechd-host:                          Connection Setup.     (line 17)
+* speechd-language:                      Languages.            (line 17)
+* speechd-language <1>:                  Languages.            (line 28)
+* speechd-out-active-drivers:            Driver Selection.     (line  9)
+* speechd-out-disable-driver:            Driver Selection.     (line 24)
+* speechd-out-enable-driver:             Driver Selection.     (line 21)
+* speechd-pause:                         Control Commands.     (line 24)
+* speechd-port:                          Connection Setup.     (line 24)
+* speechd-repeat:                        Other Commands.       (line 19)
+* speechd-resume:                        Control Commands.     (line 29)
+* speechd-say-text:                      Other Commands.       (line 22)
+* speechd-set-capital-character-mode:    Parameter Setting Commands.
+                                                               (line 26)
+* speechd-set-output-module:             Parameter Setting Commands.
+                                                               (line 62)
+* speechd-set-pitch:                     Parameter Setting Commands.
+                                                               (line 52)
+* speechd-set-punctuation-mode:          Parameter Setting Commands.
+                                                               (line 20)
+* speechd-set-rate:                      Parameter Setting Commands.
+                                                               (line 46)
+* speechd-set-synthesizer-voice:         Parameter Setting Commands.
+                                                               (line 38)
+* speechd-set-voice:                     Parameter Setting Commands.
+                                                               (line 33)
+* speechd-set-volume:                    Parameter Setting Commands.
+                                                               (line 56)
+* speechd-speak:                         Starting Alternative Output.
+                                                               (line 14)
+* speechd-speak-align-buffer-insertions: Auto-Reading Buffers. (line 55)
+* speechd-speak-allow-prompt-commands:   Reading Commands.     (line 85)
+* speechd-speak-auto-speak-buffers:      Auto-Reading Buffers. (line 13)
+* speechd-speak-buffer-info:             Informatory Commands. (line  7)
+* speechd-speak-buffer-insertions:       Auto-Reading Buffers. (line 28)
+* speechd-speak-buffer-name:             Basic Speaking.       (line 22)
+* speechd-speak-by-properties-always:    Text Properties.      (line 28)
+* speechd-speak-by-properties-never:     Text Properties.      (line 32)
+* speechd-speak-by-properties-on-movement: Text Properties.    (line 15)
+* speechd-speak-coding-info:             Informatory Commands. (line 24)
+* speechd-speak-command-feedback COMMAND POSITION FEEDBACK: Advanced Customization.
+                                                               (line 15)
+* speechd-speak-connections:             Multiple Connections. (line 18)
+* speechd-speak-deleted-char:            Basic Speaking.       (line 17)
+* speechd-speak-display-modes:           Reading State.        (line 33)
+* speechd-speak-echo:                    Basic Speaking.       (line  6)
+* speechd-speak-emacs-language:          Languages.            (line 50)
+* speechd-speak-emacs-language <1>:      Languages.            (line 54)
+* speechd-speak-faces:                   Text Properties.      (line 36)
+* speechd-speak-force-auto-speak-buffers: Auto-Reading Buffers.
+                                                               (line 18)
+* speechd-speak-frame-info:              Informatory Commands. (line 11)
+* speechd-speak-function-feedback FUNCTION POSITION FEEDBACK: Advanced Customization.
+                                                               (line 37)
+* speechd-speak-header-line-info:        Informatory Commands. (line 14)
+* speechd-speak-ignore-command-keys:     Basic Speaking.       (line 60)
+* speechd-speak-in-debugger:             Debugging.            (line 10)
+* speechd-speak-index-mark-regexp:       Index marking.        (line 17)
+* speechd-speak-input-method-info:       Informatory Commands. (line 28)
+* speechd-speak-input-method-languages:  Languages.            (line 41)
+* speechd-speak-insertions-in-buffers:   Auto-Reading Buffers. (line 44)
+* speechd-speak-key-set-predefined-rate: Control Commands.     (line 41)
+* speechd-speak-last-insertions:         Reading Commands.     (line 65)
+* speechd-speak-last-insertions <1>:     Reading Commands.     (line 79)
+* speechd-speak-last-message:            Reading Commands.     (line 57)
+* speechd-speak-last-message <1>:        Reading Commands.     (line 75)
+* speechd-speak-message-time-interval:   Basic Speaking.       (line 68)
+* speechd-speak-mode:                    Starting Alternative Output.
+                                                               (line 35)
+* speechd-speak-mode-hook:               Modes.                (line 10)
+* speechd-speak-mode-info:               Informatory Commands. (line 20)
+* speechd-speak-mode-map:                Keys.                 (line 17)
+* speechd-speak-movement-on-insertions:  Auto-Reading Buffers. (line 65)
+* speechd-speak-on-minibuffer-exit:      Basic Speaking.       (line 33)
+* speechd-speak-prefix:                  Keys.                 (line  9)
+* speechd-speak-priority-insertions-in-buffers: Auto-Reading Buffers.
+                                                               (line 49)
+* speechd-speak-process-info:            Informatory Commands. (line 32)
+* speechd-speak-read-buffer:             Reading Commands.     (line 13)
+* speechd-speak-read-char:               Reading Commands.     (line 47)
+* speechd-speak-read-command-keys:       Basic Speaking.       (line 38)
+* speechd-speak-read-command-name:       Basic Speaking.       (line 63)
+* speechd-speak-read-line:               Reading Commands.     (line  7)
+* speechd-speak-read-mode-line:          Reading Commands.     (line 60)
+* speechd-speak-read-next-line:          Reading Commands.     (line 51)
+* speechd-speak-read-other-window:       Reading Commands.     (line 20)
+* speechd-speak-read-page:               Reading Commands.     (line 40)
+* speechd-speak-read-paragraph:          Reading Commands.     (line 36)
+* speechd-speak-read-previous-line:      Reading Commands.     (line 54)
+* speechd-speak-read-rectangle:          Reading Commands.     (line 27)
+* speechd-speak-read-region:             Reading Commands.     (line 24)
+* speechd-speak-read-rest-of-buffer:     Reading Commands.     (line 16)
+* speechd-speak-read-sentence:           Reading Commands.     (line 33)
+* speechd-speak-read-sexp:               Reading Commands.     (line 43)
+* speechd-speak-read-word:               Reading Commands.     (line 30)
+* speechd-speak-set-language:            Parameter Setting Commands.
+                                                               (line 16)
+* speechd-speak-signal-events:           Signalling.           (line 13)
+* speechd-speak-spell:                   Spelling.             (line 14)
+* speechd-speak-spell-mode:              Spelling.             (line  6)
+* speechd-speak-state-changes:           Reading State.        (line 11)
+* speechd-speak-toggle-braille-keys:     Braille Display Keys. (line 82)
+* speechd-speak-toggle-speaking:         Control Commands.     (line  7)
+* speechd-speak-use-index-marks:         Index marking.        (line 12)
+* speechd-speak-whole-line:              Basic Speaking.       (line 29)
+* speechd-stop:                          Control Commands.     (line 11)
+* speechd-timeout:                       Connection Setup.     (line 36)
+* speechd-unspeak:                       Other Commands.       (line 12)
+* speechd-voices:                        Voices.               (line 16)
+* spelling:                              Spelling.             (line  6)
+* SSIP:                                  Components.           (line 10)
+* stop:                                  Control Commands.     (line 11)
+* stop <1>:                              Control Commands.     (line 17)
+* stop <2>:                              Multiple Connections. (line 50)
+* suspend-emacs:                         Advanced Customization.
+                                                               (line 29)
+* TAB characters:                        Problems.             (line 26)
+* text properties:                       Text Properties.      (line  6)
+* timeout:                               Connection Setup.     (line 37)
+* truncate-lines:                        Reading Commands.     (line  7)
+* URL speaking:                          Problems.             (line 18)
+* voice:                                 Parameter Setting Commands.
+                                                               (line 33)
+* voice <1>:                             Parameter Setting Commands.
+                                                               (line 38)
+* voices:                                Voices.               (line  6)
+* voices <1>:                            Connection Voices.    (line  6)
+* volume:                                Parameter Setting Commands.
+                                                               (line 56)
+* w3m-el:                                Problems.             (line 18)
+
+
+
+Tag Table:
+Node: Top1200
+Node: Introduction2687
+Node: Design Goals3888
+Node: Feature List6187
+Node: Components8667
+Node: speechd-el User Manual9911
+Node: Installation11401
+Node: Starting Alternative Output12795
+Node: Commands14682
+Node: Reading Commands15779
+Node: Informatory Commands18303
+Node: Control Commands19231
+Node: Parameter Setting Commands20744
+Node: Spelling23370
+Node: Other Commands24005
+Node: Customization24677
+Node: Driver Selection26028
+Node: Connection Setup26899
+Node: Default Priorities30371
+Node: Basic Speaking31469
+Node: Auto-Reading Buffers34349
+Node: Reading State37237
+Node: Signalling38603
+Ref: Signalling-Footnote-139776
+Node: Text Properties39882
+Node: Index marking42095
+Node: Languages43113
+Node: Voices45990
+Node: Connection Voices48297
+Node: Multiple Connections49827
+Node: Keys51965
+Node: Braille Display Keys52947
+Node: Modes56970
+Node: Debugging57397
+Node: Advanced Customization57838
+Node: Problems60127
+Node: Tips63366
+Node: Bug Reporting64690
+Node: speechd-el Elisp Library67751
+Node: Contact Information69543
+Node: Copying This Manual70336
+Node: GNU Free Documentation License70608
+Node: GNU General Public License93064
+Node: Index130635
+
+End Tag Table
+
+
+Local Variables:
+coding: utf-8
+End:

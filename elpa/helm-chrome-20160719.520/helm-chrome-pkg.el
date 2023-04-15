@@ -1,2 +1,0 @@
-;;; Generated package description from /home/jon/.emacs.d/elpa/helm-chrome-20160719.520/helm-chrome.el  -*- no-byte-compile: t -*-
-(define-package "helm-chrome" "20160719.520" "Helm interface for Chrome bookmarks" '((helm "1.5") (cl-lib "0.3") (emacs "24")) :stars '(#("19" 0 2 (font-lock-face paradox-star-face))) :commit "fd630ace4b4b4f33355a973743bbfe0c90ce4830" :keywords '("tools") :authors '(("KAWABATA, Taichi <kawabata.taichi_at_gmail.com>")) :maintainer '("KAWABATA, Taichi <kawabata.taichi_at_gmail.com>") :url "https://github.com/kawabata/helm-chrome")

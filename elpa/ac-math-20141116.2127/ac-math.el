@@ -4,6 +4,7 @@
 ;; Author: Vitalie Spinu
 ;; URL: https://github.com/vitoshka/ac-math
 ;; Package-Version: 20141116.2127
+;; Package-Commit: 89478063dead68894f0d27687b63896633048c6f
 ;; Keywords: latex, auto-complete, Unicode, symbols
 ;; Version: 1.1
 ;; Package-Requires: ((auto-complete "1.4") (math-symbol-lists "1.0"))

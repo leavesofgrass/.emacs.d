@@ -1,2 +1,2 @@
-;;; Generated package description from /home/jon/.emacs.d/elpa/helm-dired-history-20170524.1046/helm-dired-history.el  -*- no-byte-compile: t -*-
-(define-package "helm-dired-history" "20170524.1046" "Show dired history with helm.el support." '((helm "1.9.8") (cl-lib "0.5")) :commit "281523f9fc46cf00fafd670ba5cd16552a607212" :keywords '("helm" "dired history") :authors '(("Joseph(纪秀峰)" . "jixiuf@gmail.com")) :maintainer '("Joseph(纪秀峰)" . "jixiuf@gmail.com") :url "https://github.com/jixiuf/helm-dired-history")
+;;; Generated package description from helm-dired-history.el  -*- no-byte-compile: t -*-
+(define-package "helm-dired-history" "20170524.1046" "Show dired history with helm.el support." '((helm "1.9.8") (cl-lib "0.5")) :commit "281523f9fc46cf00fafd670ba5cd16552a607212" :authors '(("Joseph(纪秀峰)" . "jixiuf@gmail.com")) :maintainer '("Joseph(纪秀峰)" . "jixiuf@gmail.com") :keywords '("helm" "dired history") :url "https://github.com/jixiuf/helm-dired-history")
